@@ -1,0 +1,7 @@
+# Data is not stored on GitHub (see README, "Data" section)
+data/*
+!data/.gitkeep
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store

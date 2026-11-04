@@ -15,7 +15,7 @@ Who structures the offshore network? Compare central intermediaries and jurisdic
 ICIJ Offshore Leaks Database (CSV bulk download): https://offshoreleaks.icij.org/pages/database
 License and citation: to verify on the ICIJ page and cite in the report.
 
-Data goes in `data/` (not committed if too large; put an external link here).
+The data is not stored in this repository. Raw files are downloaded from the ICIJ link above into `data/` (ignored by git). The exact download steps and the processed subset used are described in the "Reproduce" section once the code exists.
 
 ## Graph model (to justify in the report)
 
