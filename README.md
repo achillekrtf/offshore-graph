@@ -1,6 +1,6 @@
 # Offshore network analysis (Graph Analytics project 2026)
 
-Course: MSA-DAT07-05 Graph Analytics (Gianluca Quercini). Group of 2: Achille Krotoff, Jad Yousri.
+Course: MSA-DAT07-05 Graph Analytics (Gianluca Quercini). Group of 3 (exception to the usual limit of 2, approved by the course): Achille Krotoff, Jad Yousri, Adrian Ravas.
 
 - **Report deadline:** 10 November 2026, 8:00 AM (PDF, 15 pages max, template on Inside)
 - **Oral defense:** 10 November 2026, between 2:00 PM and 5:00 PM (8 min talk + 2 min questions, both students speak)
