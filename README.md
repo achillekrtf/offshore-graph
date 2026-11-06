@@ -8,7 +8,9 @@ Course: MSA-DAT07-05 Graph Analytics (Gianluca Quercini). Group of 3 (exception 
 
 ## Question
 
-Who structures the offshore network? Compare central intermediaries and jurisdictions (degree, betweenness, PageRank) with the communities found by Louvain, and check whether communities follow jurisdictions or the leak of origin (Panama, Paradise, Pandora Papers).
+**Who structures the offshore network of the Panama Papers?** Identify the central intermediaries, officers and jurisdictions (degree, betweenness, PageRank), then check whether the communities found by Louvain follow the jurisdictions of the entities, the countries of the officers, or the intermediaries.
+
+Scope note: the brief mentions several leaks (Panama, Paradise, Pandora). We work on Panama Papers only. Pandora Papers entities have no relationship in the ICIJ bulk file, so no Pandora graph can be built, and a single leak keeps the graph coherent and computable. Comparing communities with the leak of origin is therefore out of scope.
 
 ## Data
 
