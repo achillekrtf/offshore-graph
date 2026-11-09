@@ -153,7 +153,10 @@ NMI ranks the intermediary first, the country of the officers second and the jur
 - **Software and methods:** all analyses are run in NetworkX 3.3 (Python 3.12) with pandas, scipy and python-louvain. Louvain uses the NetworkX implementation, cross-checked once with python-louvain. Neo4j (local instance) was used only for a dashboard of the centrality rankings and to check the intermediary degrees with Cypher queries (`neo4j/`). Every parameter (hub caps, sampling sizes, resolution, seeds) is stated in the sections above and fixed in the notebooks, so the analysis can be reproduced.
 - **Code:** Repository: https://github.com/achillekrtf/offshore-graph (`src/` for the code, `notebooks/` for the analysis, README for the steps to reproduce). The raw data is not stored in the repository.
 - **Reused code:** no existing code for this dataset was reused. Apart from the libraries above and the algorithms cited in the references, all code was written by the group.
-- **AI tools used and purpose:** Claude Code (Anthropic) helped to write the loading and graph-construction code, the diameter computation, the cap sensitivity test and notebooks 01 and 02, and to draft this report; every number was recomputed by a script and checked by the authors. **[TO COMPLETE before submission: Jad Yousri and Adrian Ravas each state the AI tools they used and for what, for notebook 03 with the Neo4j dashboard and for notebook 04.]**
+- **AI tools used and purpose:** the three authors used AI assistants, all for coding help and drafting, never as a source of results.
+  - Claude Code (Anthropic), used by all three: Achille Krotoff for the loading and graph-construction code, the diameter computation, the cap sensitivity test, notebooks 01 and 02 and a first draft of this report; Jad Yousri and Adrian Ravas for coding help and debugging in notebooks 03 and 04.
+  - Cursor, used by Jad Yousri and Adrian Ravas for coding help and debugging in notebooks 03 and 04, and for the Neo4j import and dashboard of notebook 03.
+  - Every number in the report comes from code that was run, and the authors checked the outputs and the interpretations.
 
 ## References
 
