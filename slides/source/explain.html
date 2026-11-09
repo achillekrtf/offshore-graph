@@ -1,0 +1,24 @@
+<section id="explain" data-transition="fade" style="background:#F6F4EF;color:#16202A;font-family:'Inter', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:40px">
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Communities follow the intermediaries</h2>
+<div style="display:flex;gap:40px;align-items:center">
+<img src="/_blob/648065c4780afeb68afbb046bfda593a" alt="Purity and normalized mutual information of the communities against jurisdiction, officer country and intermediary" style="width:960px;height:357px;object-fit:contain;background:#FFFFFF;border:1px solid #DAD6CC;border-radius:16px">
+<table style="font-size:28px;width:664px">
+<tr><th style="width:44%">Reference</th><th style="width:28%">NMI</th><th style="width:28%">Shuffled</th></tr>
+<tr><td>Intermediary</td><td><b>0.77</b></td><td>0.20</td></tr>
+<tr><td>Officer country</td><td>0.43</td><td>0.06</td></tr>
+<tr><td>Jurisdiction</td><td>0.13</td><td>0.01</td></tr>
+</table>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;padding:32px;border:1px solid #DAD6CC;border-radius:16px">
+<h3 style="font-size:32px;font-weight:600;color:#1F5FBF">79 %</h3>
+<p style="font-size:28px;color:#4A5663">of entities sit in the community where most of their intermediary's clients sit. Officer country 21 %, jurisdiction 7 %.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;padding:32px;border:1px solid #DAD6CC;border-radius:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B45F06">Jurisdiction purity looks high</h3>
+<p style="font-size:28px;color:#4A5663">0.74 against a shuffled baseline of 0.71, since the British Virgin Islands hold 71 % of the component.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Adrian · 7 / 8 · giant component, resolution 1.0</p>
+<aside>Adrian, about 1 minute. To adapt to your own words. Each entity carries three labels: its jurisdiction, the most frequent country of its officers, and its intermediary. We compare the communities with each label using normalized mutual information, against a baseline where labels are shuffled. The intermediary comes first with 0.77, the officer country second with 0.43, the jurisdiction last with 0.13. Jurisdiction purity looks high at 0.74 but the shuffled baseline is 0.71, because the British Virgin Islands hold 71 percent of the component. Inverse purity settles it: 79 percent of entities sit in the community where most of their intermediary's clients sit. The order holds at every resolution from 0.25 to 4. The hub cap does not remove the effect: the 65 percent of entities whose intermediary is above the cap still cluster by intermediary, through the nominee officers and addresses that its clients share.</aside>
+</section>

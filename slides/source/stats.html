@@ -1,0 +1,26 @@
+<section id="stats" data-transition="fade" style="background:#F6F4EF;color:#16202A;font-family:'Inter', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:40px">
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Neither graph is connected</h2>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#14202B;color:#F3F1EC;padding:36px;border-radius:16px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:88px;font-weight:700;line-height:1;color:#7FB2F0">61 %</p>
+<p style="font-size:28px;color:#D5DCE3">of entities are isolated in the projection (129,607)</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#14202B;color:#F3F1EC;padding:36px;border-radius:16px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:88px;font-weight:700;line-height:1;color:#7FB2F0">30 / 16</p>
+<p style="font-size:28px;color:#D5DCE3">diameter and radius, projection giant component, exact</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#14202B;color:#F3F1EC;padding:36px;border-radius:16px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:88px;font-weight:700;line-height:1;color:#7FB2F0">≥37 / ≤20</p>
+<p style="font-size:28px;color:#D5DCE3">diameter and radius bounds, bipartite giant component</p>
+</div>
+</div>
+<table style="font-size:28px">
+<tr><th style="width:34%"></th><th style="width:33%">Bipartite</th><th style="width:33%">Projection</th></tr>
+<tr><td>Components</td><td>12,218</td><td>139,643</td></tr>
+<tr><td>Largest component</td><td>310,904 (66.3 %)</td><td>26,643 (12.5 %)</td></tr>
+<tr><td>Mean degree</td><td>2.18</td><td>11.6</td></tr>
+<tr><td>Max degree</td><td>7,016</td><td>720</td></tr>
+</table>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Achille · 4 / 8 · distances in hops, per component</p>
+<aside>Achille, about 1 minute 15. Neither graph is connected. The bipartite graph has a giant component with 66 percent of the nodes. The projection is very fragmented: 61 percent of entities are isolated because their connectors are shared by nobody or exceed the cap, and its largest component covers 12.5 percent of entities. Distances are computed per component, in hops. On the projection giant component the computation is exact: diameter 30, radius 16. On the bipartite giant component, with 311,000 nodes, an exact all-pairs computation is too heavy, so we give bounds: a diameter of at least 37 and a radius of at most 20. We also tested the cap: with an intermediary cap from 10 to 500 the share of isolated entities stays between 31 and 72 percent, so the fragmentation comes from the data. Then Jad presents the centralities.</aside>
+</section>
