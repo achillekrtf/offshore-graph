@@ -13,6 +13,10 @@ The Panama Papers leak (2016) exposed the client files of the law firm Mossack F
 
 **Question.** Who structures the offshore network of the Panama Papers? We identify the central intermediaries, officers and jurisdictions (degree, betweenness, PageRank), then check whether the communities found by Louvain follow the jurisdictions of the entities, the countries of the officers, or the intermediaries.
 
+**Why this dataset.** The ICIJ database is a public, documented graph of real offshore structures. It is large enough to need modeling decisions (hubs, bipartite structure, isolated nodes) and it carries attributes (jurisdiction, country, leak of origin) against which a structural result can be checked. The question is a structural one: which actors hold the network together, and does its community structure reflect geography or the intermediaries that built it.
+
+**Code repository.** https://github.com/achillekrtf/offshore-graph (analysis code in `src/` and `notebooks/`, instructions in the README).
+
 **Scope.** We work on the Panama Papers only. The brief also mentions Paradise and Pandora Papers. The Pandora Papers entities have no relationship in the ICIJ bulk file, so no Pandora graph can be built. A single leak keeps the graph coherent and computable, and comparing communities with the leak of origin is therefore out of scope.
 
 ## 2. Data
@@ -32,7 +36,7 @@ Three relationship types connect an entity to the rest of the network: `officer_
 
 ## 3. Graph model
 
-**Bipartite graph.** Entities on one side, connectors (officers, intermediaries, entity addresses) on the other. A link says "this connector is attached to this entity". The graph is undirected, simple and unweighted: only the existence of a link matters for our questions, and the direction of the ICIJ links (connector to entity) carries no further information. It has 468,623 nodes and 511,687 edges.
+**Bipartite graph.** Entities on one side, connectors (officers, intermediaries, entity addresses) on the other. A link says "this connector is attached to this entity". The graph is undirected, simple and unweighted. We use a simple graph and not a multigraph because a connector is linked to an entity at most once after removing duplicate rows, and the projection keeps the multiplicity of shared connectors as an edge weight. The graph is undirected: only the existence of a link matters for our questions, and the direction of the ICIJ links (connector to entity) carries no further information. It has 468,623 nodes and 511,687 edges.
 
 **Entity projection.** Two entities are linked when they share a connector. The weight is the number of shared connectors. A connector attached to $d$ entities adds $d(d-1)/2$ edges, so the intermediary with 7,016 entities alone would add about 24.6 million edges. We cap the hubs in the projection: officers with more than 500 entities and intermediaries or addresses with more than 50 are ignored when linking entities. This gives 213,634 nodes and 1,238,967 weighted edges.
 
@@ -67,6 +71,8 @@ A higher cap links more entities and grows the giant component, at the price of 
 | Connected components | 12,218 | 139,643 |
 | Largest component | 310,904 (66.3 %) | 26,643 (12.5 %) |
 | Isolated nodes | 0 | 129,607 |
+
+**Neither graph is connected.** The bipartite graph has 12,218 components and the projection 139,643. Distances are therefore defined per component (section 5), and betweenness and community detection are run on the largest component or on the non-isolated part, as stated in each section.
 
 ![Degree distributions, log-log](../figures/01_degree_distributions.png){width=90%}
 
