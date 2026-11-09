@@ -39,8 +39,11 @@ unzip data/full-oldb.zip -d data/raw
 # 4. Diameter and radius (about 2 minutes), writes data/processed/diameter.json
 .venv/bin/python -I src/diameter.py
 
-# 5. Sensitivity of the intermediary cap (optional), writes data/processed/cap_sensitivity.json
-.venv/bin/python -I src/cap_sensitivity.py
+# 5. Extras used in the report (optional, each writes into data/processed/ or figures/)
+.venv/bin/python -I src/cap_sensitivity.py          # intermediary cap 10, 50, 100, 500
+.venv/bin/python -I src/top_intermediaries.py       # degree, PageRank, betweenness of intermediaries
+.venv/bin/python -I src/betweenness_stability.py    # 5 samples of 50 sources and one of 300 (about 10 min)
+.venv/bin/python -I src/community_figure.py         # figures/05_community_example.png
 ```
 
 Then run the notebooks in order with the Jupyter kernel of `.venv`: `notebooks/01` to `04` (see below). The report PDF is rebuilt with `uv run --no-project --with markdown python report/build_pdf.py` (needs Google Chrome).
@@ -52,7 +55,9 @@ Then run the notebooks in order with the Jupyter kernel of `.venv`: `notebooks/0
 ```
 src/        load.py (CSV filter, cache), graph.py (bipartite graph, projection, statistics),
             run_stats.py, diameter.py (exact and bounded diameter and radius),
-            cap_sensitivity.py, import_neo4j.py (optional)
+            cap_sensitivity.py, top_intermediaries.py (top-10 table), betweenness_stability.py
+            (sampled betweenness over 6 runs), community_figure.py (figure of one community),
+            import_neo4j.py (optional)
 notebooks/  01_data_and_graph, 02_connectivity, 03_centralities, 04_communities
 figures/    figures used in the report and the slides
 report/     report.md, report.pdf, build_pdf.py

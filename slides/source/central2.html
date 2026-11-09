@@ -14,8 +14,8 @@
 </div>
 <div style="display:flex;gap:24px">
 <div style="flex:1;background:#14202B;color:#F3F1EC;padding:24px 28px;border-radius:16px">
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1;color:#7FB2F0">#1, #2</p>
-<p style="font-size:24px;color:#D5DCE3;line-height:1.35">Mossack Fonseca Singapore, then UK, Orion House 3rd</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1;color:#7FB2F0">Top 3</p>
+<p style="font-size:24px;color:#D5DCE3;line-height:1.35">Mossack Fonseca Singapore and UK offices, in all 6 runs</p>
 </div>
 <div style="flex:1;background:#14202B;color:#F3F1EC;padding:24px 28px;border-radius:16px">
 <p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1;color:#7FB2F0">0.97</p>
@@ -27,5 +27,5 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Jad · 6 / 9 · notebook 03, betweenness from 50 sampled sources (seed 0)</p>
-<aside>Jad, about 55 seconds. To adapt to your own words. Betweenness is the share of shortest paths that go through a node. An exact computation needs a shortest-path tree from each of the 311,000 nodes of the giant component, so we estimate it from 50 random sources, with a fixed seed; the top of the ranking is reliable, small gaps in the middle are sampling noise. By betweenness the Singapore and UK offices of Mossack Fonseca come first and Orion House third; the rank correlation with degree is 0.97 over the intermediaries of the giant component. Jurisdictions are node attributes, not nodes: the British Virgin Islands hold 113,648 entities and 37 of the 50 entities with the highest PageRank. Finally, the bipartite graph and the projection answer different questions: none of the top 20 entities of one appears in the top 20 of the other.</aside>
+<aside>Jad, about 55 seconds. To adapt to your own words. Betweenness is the share of shortest paths that go through a node. An exact computation needs a shortest-path tree from each of the 311,000 nodes of the giant component, so we estimate it from sampled sources. We checked the stability: five samples of 50 sources and one of 300. The Singapore and UK offices of Mossack Fonseca are in the top 3 in all six runs. The other places move: Orion House ranks between 2nd and 12th with 50 sources and 4th with 300. So we read the top of the ranking as a set: Singapore, UK and Panama offices, Orion House, Offshore Business Consultant and Horizon Investment. The rank correlation with degree is 0.97 over the intermediaries of the giant component. Jurisdictions are node attributes, not nodes: the British Virgin Islands hold 113,648 entities and 37 of the 50 entities with the highest PageRank. Finally, the bipartite graph and the projection answer different questions: none of the top 20 entities of one appears in the top 20 of the other.</aside>
 </section>
