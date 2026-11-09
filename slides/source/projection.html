@@ -17,6 +17,6 @@
 <p style="font-size:28px;line-height:1.4">Caps: officers 500, intermediaries 50, addresses 50. Result: <b>213,634</b> nodes, <b>1,238,967</b> weighted edges.</p>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Achille · 4 / 9 · src/graph.py, build_projection</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Achille · 5 / 11 · src/graph.py, build_projection</p>
 <aside>Achille, about 1 minute. We want to compare entities, so we project. We build a matrix B with the entities as rows, the connectors as columns, and a 1 when they are linked. The product B times B transposed gives, for every pair of entities, the number of connectors they share: that is the edge weight. In the small example, E1 and E2 share Marie, E2 and E3 share Cabinet X, and E4 is isolated. A projection has a cost: a connector linked to d entities creates d times d minus 1 over 2 edges, so one intermediary with 7,016 entities would add about 24.6 million edges. We therefore ignore the hubs when we link entities: officers above 500 entities, intermediaries and addresses above 50. The projection has 213,634 nodes and 1,238,967 weighted edges. We tested the cap from 10 to 500: the share of isolated entities stays between 31 and 72 percent, so it is a property of the data.</aside>
 </section>

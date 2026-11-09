@@ -1,9 +1,12 @@
 <section id="central" data-transition="fade" style="background:#F6F4EF;color:#16202A;font-family:'Inter', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:36px">
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.1">Step 5: centralities, who holds the network</h2>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.1">Step 5a: degree and PageRank, who has the links</h2>
 <div style="display:flex;gap:40px;align-items:center">
 <img src="/_blob/2e54aab43cb7981afb139e39a8d3c8d7" alt="Bar charts of the intermediaries and officers with the most linked entities" style="width:800px;height:372px;object-fit:contain;background:#FFFFFF;border:1px solid #DAD6CC;border-radius:16px">
-<div style="flex:1;background:#0E1822;padding:28px;border-radius:16px">
-<p style="font-family:'JetBrains Mono', Consolas, monospace;font-size:24px;line-height:1.6;color:#E6EDF3;white-space:nowrap">degB = pd.Series(dict(B.degree()))<br>prB = nx.pagerank(B, alpha=<span style="color:#F0B36A">0.85</span>,<br>tol=<span style="color:#F0B36A">1e-6</span>)<br>bcB = nx.betweenness_centrality(<br>B.subgraph(giant), k=<span style="color:#F0B36A">50</span>,<br>normalized=<span style="color:#F0B36A">True</span>, seed=<span style="color:#F0B36A">0</span>)</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="background:#0E1822;padding:28px;border-radius:16px">
+<p style="font-family:'JetBrains Mono', Consolas, monospace;font-size:24px;line-height:1.6;color:#E6EDF3;white-space:nowrap">degB = pd.Series(dict(B.degree()))<br>prB = nx.pagerank(B, alpha=<span style="color:#F0B36A">0.85</span>,<br>tol=<span style="color:#F0B36A">1e-6</span>)</p>
+</div>
+<p style="font-size:26px;color:#4A5663;line-height:1.35">Degree counts the entities a node is linked to. PageRank also rewards links to well-connected nodes.</p>
 </div>
 </div>
 <div style="display:flex;gap:24px">
@@ -20,6 +23,6 @@
 <p style="font-size:24px;color:#D5DCE3;line-height:1.35">rank correlation, degree against PageRank, over all intermediaries</p>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Jad · 6 / 9 · betweenness estimated from 50 sampled sources (k=50)</p>
-<aside>Jad, about 1 minute 30. To adapt to your own words. Three measures on the bipartite graph. Degree is the number of entities an intermediary or an officer is linked to. PageRank gives more weight to a node whose neighbors are themselves important, with a damping of 0.85. Betweenness is the share of shortest paths that go through a node; an exact run needs a shortest-path tree from each of the 311,000 nodes, so we estimate it from 50 random sources, with a fixed seed. Results: Orion House Services in Hong Kong is linked to 7,016 entities, Mossack Fonseca Panama to 4,364. The top 15 intermediaries by degree and by PageRank are the same 15 names, rank correlation 0.92. By betweenness, the Singapore and UK offices of Mossack Fonseca come first and Orion House third. Among officers, Mossfon Subscribers in Samoa is linked to 3,882 entities against 368 for the next one, a nominee company on a large share of shortest paths. On the projection the rankings differ: none of the top 20 entities of the bipartite graph appears in the top 20 of the projection.</aside>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Jad · 7 / 11 · notebook 03, bipartite graph</p>
+<aside>Jad, about 55 seconds. To adapt to your own words. Two measures on the bipartite graph. Degree is the number of entities an intermediary or an officer is linked to. PageRank gives more weight to a node whose neighbors are themselves important, with a damping of 0.85. Results: Orion House Services in Hong Kong is linked to 7,016 entities, Mossack Fonseca Panama to 4,364, then Prime Corporate Solutions and Offshore Business Consultant. The top 15 intermediaries by degree and by PageRank are the same 15 names, with a rank correlation of 0.92 over all intermediaries. Among officers, Mossfon Subscribers Ltd in Samoa is linked to 3,882 entities against 368 for the next one: a nominee company used as a front for thousands of entities.</aside>
 </section>

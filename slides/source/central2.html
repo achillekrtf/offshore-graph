@@ -1,0 +1,31 @@
+<section id="central2" data-transition="fade" style="background:#F6F4EF;color:#16202A;font-family:'Inter', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:36px">
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.1">Step 5b: betweenness, who sits on the paths</h2>
+<div style="display:flex;gap:40px;align-items:center">
+<div style="display:flex;flex-direction:column;gap:12px;width:760px">
+<img src="/_blob/bc211d81927790df89570652bbe2c6a7" alt="Share of entities and share of connector links by jurisdiction" style="width:760px;height:380px;object-fit:contain;background:#FFFFFF;border:1px solid #DAD6CC;border-radius:16px">
+<p style="font-size:24px;color:#4A5663;line-height:1.35">British Virgin Islands: 113,648 entities, and 37 of the 50 entities with the highest PageRank.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="background:#0E1822;padding:28px;border-radius:16px">
+<p style="font-family:'JetBrains Mono', Consolas, monospace;font-size:24px;line-height:1.6;color:#E6EDF3;white-space:nowrap">bcB = nx.betweenness_centrality(<br>B.subgraph(giant), k=<span style="color:#F0B36A">50</span>,<br>normalized=<span style="color:#F0B36A">True</span>, seed=<span style="color:#F0B36A">0</span>)</p>
+</div>
+<p style="font-size:26px;color:#4A5663;line-height:1.35">Betweenness is the share of shortest paths through a node. An exact run needs 311,000 searches, so we sample 50 sources.</p>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#14202B;color:#F3F1EC;padding:24px 28px;border-radius:16px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1;color:#7FB2F0">#1, #2</p>
+<p style="font-size:24px;color:#D5DCE3;line-height:1.35">Mossack Fonseca Singapore and UK offices by betweenness, Orion House third</p>
+</div>
+<div style="flex:1;background:#14202B;color:#F3F1EC;padding:24px 28px;border-radius:16px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1;color:#7FB2F0">0.97</p>
+<p style="font-size:24px;color:#D5DCE3;line-height:1.35">rank correlation, degree against betweenness, over intermediaries</p>
+</div>
+<div style="flex:1;background:#14202B;color:#F3F1EC;padding:24px 28px;border-radius:16px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1;color:#7FB2F0">0 / 20</p>
+<p style="font-size:24px;color:#D5DCE3;line-height:1.35">overlap of the top 20 entities, bipartite graph against projection</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Jad · 8 / 11 · notebook 03, betweenness from 50 sampled sources (seed 0)</p>
+<aside>Jad, about 55 seconds. To adapt to your own words. Betweenness is the share of shortest paths that go through a node. An exact computation needs a shortest-path tree from each of the 311,000 nodes of the giant component, so we estimate it from 50 random sources, with a fixed seed; the top of the ranking is reliable, small gaps in the middle are sampling noise. By betweenness the Singapore and UK offices of Mossack Fonseca come first and Orion House third; the rank correlation with degree is 0.97 over the intermediaries of the giant component. Jurisdictions are node attributes, not nodes: the British Virgin Islands hold 113,648 entities and 37 of the 50 entities with the highest PageRank. Finally, the bipartite graph and the projection answer different questions: none of the top 20 entities of one appears in the top 20 of the other.</aside>
+</section>

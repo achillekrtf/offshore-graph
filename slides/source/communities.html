@@ -23,6 +23,6 @@
 </div>
 </div>
 <p style="font-size:26px;color:#D5DCE3;line-height:1.4">The 129,607 isolated entities are excluded (nothing to cluster on). The giant component is the main result, since tiny components are pure by construction.</p>
-<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#8FA0B0">Adrian · 7 / 9 · notebook 04</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#8FA0B0">Adrian · 9 / 11 · notebook 04</p>
 <aside>Adrian, about 55 seconds. To adapt to your own words. Louvain greedily groups entities to maximize modularity, which rewards dense blocks joined by few edges. We run it on the weighted entity projection with resolution 1.0 and a fixed seed. Isolated entities cannot belong to any community, so the 129,607 of them are excluded. The main result is on the giant component, 26,643 entities, because a component of two entities sharing one officer is trivially a pure community and would inflate every score. We get 158 communities, the largest with 875 entities, a median of 92, and a modularity of 0.957. Five seeds give 158 to 160 communities and a pairwise NMI of 0.98, so the partition is stable, and python-louvain gives the same modularity.</aside>
 </section>
