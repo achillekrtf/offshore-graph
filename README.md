@@ -1,71 +1,82 @@
-# Offshore network analysis (Graph Analytics project 2026)
+# Who structures the offshore network of the Panama Papers?
 
-Course: MSA-DAT07-05 Graph Analytics (Gianluca Quercini). Group of 3 (exception to the usual limit of 2, approved by the course): Achille Krotoff, Jad Yousri, Adrian Ravas.
+Graph Analytics 2026 project (MSA-DAT07-05, Gianluca Quercini). Authors: Achille Krotoff, Jad Yousri, Adrian Ravas (group of 3, exception to the usual limit of 2, approved by the course).
 
-- **Report deadline:** 10 November 2026, 8:00 AM (PDF, 15 pages max, template on Inside)
-- **Oral defense:** 10 November 2026, between 2:00 PM and 5:00 PM (8 min talk + 2 min questions, both students speak)
-- **Software:** NetworkX (Python)
+- **Software:** Python 3.12, NetworkX 3.3, pandas, scipy, python-louvain. Neo4j (local) only for an optional dashboard of the centrality rankings.
+- **Report:** [`report/report.pdf`](report/report.pdf) (source: [`report/report.md`](report/report.md))
+- **Oral slides:** sources and speaker notes in [`slides/`](slides/)
 
 ## Question
 
-**Who structures the offshore network of the Panama Papers?** Identify the central intermediaries, officers and jurisdictions (degree, betweenness, PageRank), then check whether the communities found by Louvain follow the jurisdictions of the entities, the countries of the officers, or the intermediaries.
-
-Scope note: the brief mentions several leaks (Panama, Paradise, Pandora). We work on Panama Papers only. Pandora Papers entities have no relationship in the ICIJ bulk file, so no Pandora graph can be built, and a single leak keeps the graph coherent and computable. Comparing communities with the leak of origin is therefore out of scope.
+**Who structures the offshore network of the Panama Papers?** We identify the central intermediaries, officers and jurisdictions (degree, betweenness, PageRank), then check whether the communities found by Louvain follow the jurisdictions of the entities, the countries of the officers, or the intermediaries.
 
 ## Data
 
-ICIJ Offshore Leaks Database (CSV bulk download): https://offshoreleaks.icij.org/pages/database
-Version used: bulk CSV generated 2026-09-09 (`full-oldb.LATEST.zip`, 72 MB zipped).
-Subset: **Panama Papers** only (`sourceID == "Panama Papers"`): 213,634 entities, 238,402 officers, 14,110 intermediaries, 93,454 addresses.
+Source: ICIJ Offshore Leaks Database, bulk CSV (`full-oldb.LATEST.zip`, generated 2026-09-09, about 72 MB zipped and 1.2 GB unzipped): https://offshoreleaks.icij.org/pages/database
 
-License (checked on the ICIJ page): the database is under the Open Database License (ODbL 1.0), its contents under Creative Commons Attribution-ShareAlike 3.0. ICIJ asks to always cite the International Consortium of Investigative Journalists when using the data.
-Suggested citation: International Consortium of Investigative Journalists (ICIJ), *Offshore Leaks Database*, https://offshoreleaks.icij.org, data downloaded 2026-11-06.
+The data is too large for this repository, so it is downloaded from the ICIJ link above into `data/raw/` (ignored by git). The commands are in the next section.
 
-The data is not stored in this repository. Raw files are downloaded from the ICIJ link above into `data/` (ignored by git). The exact download steps and the processed subset used are described in the "Reproduce" section once the code exists.
+License: the database is under the Open Database License (ODbL 1.0) and its contents under Creative Commons Attribution-ShareAlike 3.0. ICIJ asks users to cite the International Consortium of Investigative Journalists.
+Citation: International Consortium of Investigative Journalists (ICIJ), *Offshore Leaks Database*, https://offshoreleaks.icij.org, downloaded 2026-11-06.
 
-## Graph model (to justify in the report)
-
-- Bipartite graph: officers/intermediaries and entities, linked by "officer of" and "intermediary of".
-- One-mode projection on entities, weighted by the number of shared officers, intermediaries or addresses.
-- Open choices: directed or undirected, simple graph or multigraph, handling of mass-registration addresses (huge artificial cliques), subset (one jurisdiction or one leak).
-
-## Required report items
-
-- Number of nodes and edges, graph type
-- Connectivity and components
-- Diameter and radius (method, per component or on the largest one)
-- Centralities, with interpretation
-- Communities (algorithm, parameters, interpretation)
-- Data source, reused code (or none), AI tools used and their purpose
-
-## Structure
-
-```
-data/         raw and processed data (or link to external storage)
-notebooks/    exploration and analysis
-src/          graph construction and analysis code
-report/       report sources
-figures/      figures used in the report and slides
-```
+Subset used: rows with `sourceID == "Panama Papers"`: 213,634 entities, 238,402 officers, 14,110 intermediaries, 93,454 addresses.
 
 ## Reproduce
 
 ```bash
-uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -r requirements-lock.txt
-mkdir -p data/raw && curl -L -o data/full-oldb.zip https://offshoreleaks-data.icij.org/offshoreleaks/csv/full-oldb.LATEST.zip
+# 1. Environment
+uv venv --python 3.12 .venv
+uv pip install --python .venv/bin/python -r requirements-lock.txt
+
+# 2. Data (about 1.2 GB unzipped)
+mkdir -p data/raw
+curl -L -o data/full-oldb.zip https://offshoreleaks-data.icij.org/offshoreleaks/csv/full-oldb.LATEST.zip
 unzip data/full-oldb.zip -d data/raw
-.venv/bin/python -I src/run_stats.py   # filters Panama Papers, builds both graphs, writes data/processed/stats.json
+
+# 3. Build the graphs, write statistics (data/processed/graphs.pkl, stats.json)
+.venv/bin/python -I src/run_stats.py
+
+# 4. Diameter and radius (about 2 minutes), writes data/processed/diameter.json
+.venv/bin/python -I src/diameter.py
+
+# 5. Sensitivity of the intermediary cap (optional), writes data/processed/cap_sensitivity.json
+.venv/bin/python -I src/cap_sensitivity.py
 ```
 
-Code: `src/load.py` (CSV filter, cached as parquet), `src/graph.py` (bipartite graph, weighted entity projection, statistics), `src/run_stats.py` (entry point).
+Then run the notebooks in order with the Jupyter kernel of `.venv`: `notebooks/01` to `04` (see below). The report PDF is rebuilt with `uv run --no-project --with markdown python report/build_pdf.py` (needs Google Chrome).
 
-## Graph construction (current choices)
+**Neo4j (optional).** `src/import_neo4j.py` loads the same data into a local Neo4j, and section 6 of notebook 03 reads from it and writes the rankings back for the dashboard in `neo4j/`. It needs a local Neo4j instance and credentials in the environment variables `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD`, `NEO4J_DATABASE`. All other results are computed in NetworkX and do not need Neo4j.
 
-- Bipartite graph: entities on one side, officers, intermediaries and entity addresses on the other (undirected, simple, uncapped).
-- Entity projection: edge weight = number of shared connectors. Hubs are capped to avoid artificial cliques (a connector with d entities adds d(d-1)/2 edges): officers with more than 500 entities, intermediaries and addresses with more than 50 are ignored in the projection only.
-- `registered_address` links are mostly officer to address (145,795 of 151,105), so addresses add little to the entity projection.
+## Repository structure
 
-## Basic statistics (Panama Papers)
+```
+src/        load.py (CSV filter, cache), graph.py (bipartite graph, projection, statistics),
+            run_stats.py, diameter.py (exact and bounded diameter and radius),
+            cap_sensitivity.py, import_neo4j.py (optional)
+notebooks/  01_data_and_graph, 02_connectivity, 03_centralities, 04_communities
+figures/    figures used in the report and the slides
+report/     report.md, report.pdf, build_pdf.py
+slides/     oral defense slides (sources, speaker notes, timing)
+neo4j/      centrality dashboard and Cypher queries (optional)
+data/       raw and processed data (ignored by git)
+```
+
+## Notebooks
+
+| Notebook | Content |
+|---|---|
+| `01_data_and_graph` | Raw files, filter, bipartite graph, projection, basic statistics |
+| `02_connectivity` | Components, exact diameter and radius (projection), bounds (bipartite) |
+| `03_centralities` | Degree, PageRank, sampled betweenness, jurisdictions |
+| `04_communities` | Louvain, stability, comparison with jurisdiction, officer country and intermediary |
+
+## Graph model
+
+- **Bipartite graph:** entities on one side, connectors (officers, intermediaries, entity addresses) on the other. Undirected, simple, unweighted.
+- **Entity projection:** two entities are linked if they share a connector, weight = number of shared connectors. A connector linked to `d` entities adds `d(d-1)/2` edges, so hubs are ignored in the projection: officers with more than 500 entities, intermediaries and addresses with more than 50.
+- `registered_address` links go mostly from an officer to an address (145,795 of 151,105), so addresses add little to the entity projection.
+
+## Main results
 
 | | Bipartite | Entity projection |
 |---|---|---|
@@ -73,13 +84,12 @@ Code: `src/load.py` (CSV filter, cached as parquet), `src/graph.py` (bipartite g
 | Edges | 511,687 | 1,238,967 |
 | Components | 12,218 | 139,643 (129,607 isolated) |
 | Largest component | 310,904 (66.3 %) | 26,643 (12.5 %) |
-| Max degree | 7,016 | 720 |
+| Diameter, radius (giant component) | at least 37, at most 20 (bounds) | 30, 16 (exact) |
 
+- Centralities: a few intermediaries (Orion House Services with 7,016 entities, Mossack Fonseca offices) and one nominee officer carry the network.
+- Communities: Louvain gives 158 communities on the giant component (modularity 0.957). They follow the intermediaries (NMI 0.77) more than the countries of the officers (0.43) and far more than the jurisdictions (0.13).
 
-## Milestones
+## Reuse and AI tools
 
-1. Download data, check license, pick subset
-2. Build graph, basic statistics, connectivity, diameter and radius
-3. Centralities and Louvain, interpretation
-4. Report and repository README
-5. Slides and rehearsal
+- **Existing code for this dataset:** none reused. Apart from the libraries above and the algorithms cited in the report, all code was written by the group.
+- **AI tools:** Claude Code and Cursor, used by the three authors for coding help, debugging and drafting. Details are in section 9 of the report.

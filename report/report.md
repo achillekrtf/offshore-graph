@@ -15,8 +15,6 @@ The Panama Papers leak (2016) exposed the client files of the law firm Mossack F
 
 **Code repository.** https://github.com/achillekrtf/offshore-graph (analysis code in `src/` and `notebooks/`, instructions in the README).
 
-**Scope.** We work on the Panama Papers only. The brief also mentions Paradise and Pandora Papers. The Pandora Papers entities have no relationship in the ICIJ bulk file, so no Pandora graph can be built. A single leak keeps the graph coherent and computable, and comparing communities with the leak of origin is therefore out of scope.
-
 ## 2. Data
 
 **Source.** ICIJ Offshore Leaks Database, bulk CSV (`full-oldb.LATEST.zip`, generated 2026-09-09), https://offshoreleaks.icij.org/pages/database, downloaded 2026-11-06. License: the database is under the Open Database License (ODbL 1.0) and its contents under Creative Commons Attribution-ShareAlike 3.0. ICIJ asks users to cite the International Consortium of Investigative Journalists.
