@@ -15,6 +15,8 @@ The Panama Papers leak (2016) exposed the client files of the law firm Mossack F
 
 **Code repository.** https://github.com/achillekrtf/offshore-graph (analysis code in `src/` and `notebooks/`, instructions in the README).
 
+The group has three members, with the approval of the course, which allowed an exception to the usual limit of two.
+
 ## 2. Data
 
 **Source.** ICIJ Offshore Leaks Database, bulk CSV (`full-oldb.LATEST.zip`, generated 2026-09-09), https://offshoreleaks.icij.org/pages/database, downloaded 2026-11-06. License: the database is under the Open Database License (ODbL 1.0) and its contents under Creative Commons Attribution-ShareAlike 3.0. ICIJ asks users to cite the International Consortium of Investigative Journalists.
@@ -95,11 +97,30 @@ In the largest projection component, eccentricities are centered around 20 and r
 
 ## 6. Centralities
 
-We compute degree centrality, PageRank (damping 0.85) and betweenness on the bipartite graph and on the projection. Betweenness is estimated by sampling sources (50 on the 311,000-node bipartite giant component, 200 on the projection component, seed 0), because exact betweenness needs a shortest-path tree from every node.
+We compute degree centrality, PageRank (damping 0.85) and betweenness on the bipartite graph and on the projection. Betweenness is estimated by sampling sources (50 to 300 on the 311,000-node bipartite giant component, 200 on the projection component), because exact betweenness needs a shortest-path tree from every node.
 
 ![Highest-degree intermediaries and officers](../figures/03_degree_intermediaries_officers.png){width=95%}
 
-**Intermediaries.** Orion House Services (HK) Limited is attached to 7,016 entities, followed by Mossack Fonseca & Co. (Panama, 4,364), Prime Corporate Solutions SARL (4,117), Offshore Business Consultant (Int'l) Limited (4,094) and Mossack Fonseca & Co. (Singapore, 3,888). The top 15 by degree and by PageRank are the same 15 names, and the rank correlation between the two scores over all intermediaries is 0.92. By betweenness, the Singapore and UK offices of Mossack Fonseca come first and Orion House third.
+**Intermediaries.** The table gives the ten intermediaries with the most entities, with the three measures. Degree is the number of entities a firm is attached to. PageRank is shown as a multiple of the average node score. Betweenness is the sampled share of shortest paths through the firm, from 300 sources, with its rank among the 1,762 intermediaries of the giant component.
+
+| Intermediary | Country | Entities | PageRank (x average) | Betweenness | Rank |
+|---|---|---|---|---|---|
+| Orion House Services (HK) Limited | Hong Kong | 7,016 | 2,703 | 0.101 | 4 |
+| Mossack Fonseca & Co. | Panama | 4,364 | 887 | 0.110 | 3 |
+| Prime Corporate Solutions SARL | Luxembourg | 4,117 | 1,343 | 0.067 | 7 |
+| Offshore Business Consultant (Int'l) Limited | Hong Kong | 4,094 | 1,839 | 0.097 | 5 |
+| Mossack Fonseca & Co. (Singapore) Pte Ltd. | Singapore | 3,888 | 1,535 | 0.144 | 1 |
+| Consulco International Limited | UAE, Cyprus | 3,168 | 732 | 0.043 | 11 |
+| Mossack Fonseca & Co. (Geneva) S.A. | Switzerland | 2,986 | 659 | n/a | n/a |
+| Mossack Fonseca & Co. (U.K.) Limited | United Kingdom | 2,538 | 833 | 0.138 | 2 |
+| Mossack Fonseca & Co. (Peru) Corp. | Peru | 2,055 | 900 | 0.030 | 13 |
+| Power Point Int'l Co., Ltd. | Taiwan | 2,045 | 658 | 0.012 | 40 |
+
+The top 15 by degree and by PageRank are the same 15 names, and the rank correlation between the two scores over all intermediaries is 0.92.
+
+**What the three measures say.** Degree counts a firm's clients, and Orion House has the most. PageRank also rewards links to well-connected nodes, and Orion House scores 2,703 times the average node. Betweenness measures brokerage, and the measures disagree in a useful way. Orion House is only 4th by betweenness. Horizon Investment SA (Switzerland) has 540 entities (57th by degree) but ranks 6th by betweenness: it sits on many shortest paths despite a small client base. At the other end, the Peru office (2,055 entities) ranks 13th and Power Point Int'l (Taiwan, 2,045 entities) 40th: volume without brokerage. The Geneva office has no estimate because it lies outside the giant component.
+
+**Stability of the sampled betweenness.** We repeated the estimate with five random samples of 50 sources and once with 300. The Singapore and UK offices of Mossack Fonseca are in the top 3 in all six runs. The other places move: Orion House ranks between 2nd and 12th in the 50-source runs and 4th with 300 sources, and the top 6 of a 50-source run shares between 4 and 6 names with the 300-source top 6. We therefore read the betweenness ranking as a set (the Singapore, UK and Panama offices of Mossack Fonseca, Orion House, Offshore Business Consultant, Horizon Investment) and report the 300-source ranks.
 
 ![Intermediary degree against PageRank](../figures/03_intermediary_degree_pagerank.png){width=80%}
 
@@ -121,6 +142,10 @@ We compute degree centrality, PageRank (damping 0.85) and betweenness on the bip
 
 ![Community sizes](../figures/04_community_sizes.png){width=85%}
 
+**A real community.** The figure shows one community of the giant component, drawn twice with the same layout. It has 58 entities served by a single intermediary, Cannon Asset Management Ltd., and registered in four jurisdictions (Bahamas 26, Niue 16, British Virgin Islands 12, Seychelles 4). Colored by jurisdiction, the community looks mixed. Colored by intermediary, it is uniform. Its entities are tied together through officers they share, and those officers belong to the same client book. This is the pattern behind the numbers below.
+
+![One Louvain community, colored by jurisdiction and by intermediary](../figures/05_community_example.png){width=90%}
+
 **Which reference explains the communities.** Each entity carries three labels: its jurisdiction, the most frequent country of its officers and its intermediary. We measure agreement with purity, inverse purity and normalized mutual information (NMI), against a baseline where the labels are shuffled over the entities. The baseline matters because the British Virgin Islands hold 71 % of the giant component, so a random partition already looks pure for the jurisdiction.
 
 | Reference (giant component) | NMI | NMI of shuffled labels | Purity | Inverse purity |
@@ -135,13 +160,13 @@ NMI ranks the intermediary first, the country of the officers second and the jur
 
 **Effect of the hub cap.** 65 % of the giant component's entities (17,278) have an intermediary above the cap of 50, so their intermediary created no edge. They still cluster by intermediary (NMI 0.80, purity 0.70), through the nominee officers and addresses that the clients of a big firm share. The cap removes the mechanical effect of a shared intermediary and the result remains.
 
-**Conclusion.** The hypothesis holds: the communities of the Panama Papers network follow the intermediaries more than the officers' countries and far more than the jurisdictions.
+**Conclusion.** The hypothesis holds: the communities of the Panama Papers network follow the intermediaries more than the officers' countries and far more than the jurisdictions. The match is partial: the dominant intermediary covers 51 % of its community on average, so a community often groups several firms from the same place, and a single firm can be spread over several communities.
 
 ## 8. Discussion and limits
 
 - One leak only: no comparison across leaks, and the structure reflects one law firm's clients.
 - Hub cap: a modeling choice that changes distances and isolates 61 % of entities in the projection (31 % to 72 % depending on the cap, section 3).
-- Sampled betweenness: reliable at the top of the ranking only.
+- Sampled betweenness: the order changes with the sample, only the Singapore and UK offices of Mossack Fonseca stay in the top 3 in every run (section 6).
 - Communities are computed on the 39 % of entities that are not isolated in the projection. The 61 % left out have no information to cluster on.
 - The bulk file reflects ICIJ's own deduplication and a data cut-off in 2015.
 - Names refer to companies and persons published by ICIJ. Presence in the leak does not imply wrongdoing.

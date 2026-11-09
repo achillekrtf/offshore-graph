@@ -23,7 +23,7 @@ h1{font-size:20pt;margin:0 0 4pt}h2{font-size:14pt;margin:16pt 0 6pt;border-bott
 td,th{border:1px solid #bbb;padding:3pt 6pt;text-align:left}th{background:#f0f0f0}
 figure{margin:8pt 0;text-align:center;page-break-inside:avoid}figcaption{font-size:9pt;color:#555}
 blockquote{background:#fff4d6;margin:8pt 0;padding:4pt 10pt;border-left:3px solid #e0a800}
-@page{size:A4;margin:18mm}"""
+p:has(+ul),p:has(+table),p:has(+figure){break-after:avoid}h2{break-after:avoid}table{break-inside:avoid}@page{size:A4;margin:18mm}"""
 head = f'<h1>{meta.get("title","")}</h1><p class="sub">{meta.get("subtitle","")}</p><p class="auth">{meta.get("author","")} - {meta.get("date","")}</p>'
 html = f"<!doctype html><meta charset=utf-8><style>{css}</style>{head}{body}"
 out = here / "report.html"; out.write_text(html)
