@@ -1,0 +1,28 @@
+<section id="structure" data-transition="fade" style="background:#F6F4EF;color:#16202A;font-family:'Inter', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:36px">
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.1">Step 4: components, diameter and radius</h2>
+<div style="display:flex;gap:40px;align-items:center">
+<div style="display:flex;flex-direction:column;gap:16px;width:900px">
+<p style="font-size:28px;color:#4A5663;line-height:1.35">Eccentricity of a node = its largest distance to another node. Diameter = largest eccentricity, radius = smallest. One breadth-first search per node, in C with scipy.</p>
+<div style="background:#0E1822;padding:28px;border-radius:12px">
+<p style="font-family:'JetBrains Mono', Consolas, monospace;font-size:24px;line-height:1.6;color:#E6EDF3;white-space:nowrap">comps = nx.connected_components(G)<br>D = shortest_path(A, method=<span style="color:#F0B36A">"D"</span>,<br>unweighted=<span style="color:#F0B36A">True</span>, indices=chunk)<br>ecc[s:s+400] = D.max(axis=1)<br>diameter, radius = ecc.max(), ecc.min()</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="background:#14202B;color:#F3F1EC;padding:24px 32px;border-radius:16px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:56px;font-weight:700;line-height:1;color:#7FB2F0">61 %</p>
+<p style="font-size:26px;color:#D5DCE3">of entities isolated in the projection</p>
+</div>
+<div style="background:#14202B;color:#F3F1EC;padding:24px 32px;border-radius:16px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:56px;font-weight:700;line-height:1;color:#7FB2F0">30 / 16</p>
+<p style="font-size:26px;color:#D5DCE3">diameter and radius, projection, exact</p>
+</div>
+<div style="background:#14202B;color:#F3F1EC;padding:24px 32px;border-radius:16px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:56px;font-weight:700;line-height:1;color:#7FB2F0">≥37 / ≤20</p>
+<p style="font-size:26px;color:#D5DCE3">bounds on the bipartite graph</p>
+</div>
+</div>
+</div>
+<p style="font-size:26px;color:#4A5663;line-height:1.4">Neither graph is connected. Bipartite: 12,218 components, largest 66.3 %. Projection: 139,643 components, largest 12.5 %. Distances are per component, in hops.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Achille · 5 / 9 · src/diameter.py</p>
+<aside>Achille, about 1 minute 15. First, connectivity: neither graph is connected. The bipartite graph has 12,218 components and a giant one with 66 percent of the nodes. The projection has 139,643 components, 61 percent of the entities are isolated, and its largest component covers 12.5 percent. So distances are computed per component, in hops. The eccentricity of a node is its largest distance to any other node; the diameter is the largest eccentricity and the radius the smallest. On the projection giant component, 26,643 nodes, we run a breadth-first search from every node, in blocks of 400, with scipy: it takes under two minutes and gives an exact diameter of 30 and radius of 16. On the bipartite giant component, 311,000 nodes, all pairs is too heavy, so we give bounds with a double sweep: go to the farthest node A, then to the farthest B from A. The distance A to B gives a diameter of at least 37, and the midpoint of that path gives a radius of at most 20. Then Jad presents the centralities.</aside>
+</section>
