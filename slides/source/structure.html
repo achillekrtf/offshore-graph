@@ -22,7 +22,7 @@
 </div>
 </div>
 </div>
-<p style="font-size:26px;color:#4A5663;line-height:1.4">Neither graph is connected. Bipartite: 12,218 components, largest 66.3 %. Projection: 139,643 components, largest 12.5 %. Distances are per component, in hops.</p>
-<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Achille · 5 / 9 · src/diameter.py</p>
+<p style="font-size:26px;color:#4A5663;line-height:1.4">Neither graph is connected: 12,218 components (bipartite) and 139,643 (projection), so distances are per component, in hops. Examples: the average node has 2.18 links while Orion House has 7,016. Among the 84,027 connected entities, each has about 29 neighbors on average.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Achille · 4 / 9 · src/diameter.py</p>
 <aside>Achille, about 1 minute 15. First, connectivity: neither graph is connected. The bipartite graph has 12,218 components and a giant one with 66 percent of the nodes. The projection has 139,643 components, 61 percent of the entities are isolated, and its largest component covers 12.5 percent. So distances are computed per component, in hops. The eccentricity of a node is its largest distance to any other node; the diameter is the largest eccentricity and the radius the smallest. On the projection giant component, 26,643 nodes, we run a breadth-first search from every node, in blocks of 400, with scipy: it takes under two minutes and gives an exact diameter of 30 and radius of 16. On the bipartite giant component, 311,000 nodes, all pairs is too heavy, so we give bounds with a double sweep: go to the farthest node A, then to the farthest B from A. The distance A to B gives a diameter of at least 37, and the midpoint of that path gives a radius of at most 20. Then Jad presents the centralities.</aside>
 </section>

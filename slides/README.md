@@ -5,15 +5,15 @@ Deck (private Claude artifact, 9 slides, code excerpts on slides 3 to 7): https:
 
 | # | Slide | Speaker | Time |
 |---|---|---|---|
-| 1 | Cover | Achille | 0:15 |
-| 2 | Question, data, tools | Achille | 0:45 |
-| 3 | Steps 1 and 2: CSV to bipartite graph (code) | Achille | 1:00 |
-| 4 | Step 3: projection and hub cap (code) | Achille | 1:00 |
-| 5 | Step 4: components, diameter, radius (code) | Achille | 1:15 |
-| 6 | Step 5: centralities (code) | Jad | 1:30 |
+| 1 | Cover | Achille | 0:10 |
+| 2 | Question, data, the four node types with examples | Achille | 0:50 |
+| 3 | Steps 1 to 3: CSV to bipartite graph and projection (code) | Achille | 1:40 |
+| 4 | Step 4: components, diameter, radius, stats with examples (code) | Achille | 1:00 |
+| 5 | Step 5a: degree and PageRank (code) | Jad | 0:55 |
+| 6 | Step 5b: betweenness, jurisdictions (code) | Jad | 0:55 |
 | 7 | Step 6: Louvain communities (code) | Adrian | 0:55 |
-| 8 | What explains the communities | Adrian | 0:55 |
-| 9 | Findings and limits | All | 0:30 |
+| 8 | What explains the communities | Adrian | 0:50 |
+| 9 | Findings and limits | All | 0:25 |
 
 Jad's and Adrian's notes are drafts built from notebooks 03 and 04: adapt them to your own words and rehearse with a timer. Total about 8 minutes.
 

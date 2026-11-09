@@ -3,10 +3,10 @@
   "createdOnFiles": {"v": 1, "at": "2026-11-09T20:00:00Z"},
   "lists": "css",
   "title": "Graph Analytics - Panama Papers",
-  "order": ["cover", "question", "bipartite", "projection", "structure", "central", "communities", "explain", "conclusion"],
+  "order": ["cover", "intro", "graphs", "structure", "central", "central2", "communities", "explain", "conclusion"],
   "sections": {
-    "s1": {"description": "Question and data", "start": "cover"},
-    "s2": {"description": "Building the graphs step by step, with the code", "start": "bipartite"},
+    "s1": {"description": "Title", "start": "cover"},
+    "s2": {"description": "Question, node types, and building the graphs step by step with the code", "start": "intro"},
     "s3": {"description": "Centralities: who holds the network together", "start": "central"},
     "s4": {"description": "Communities and what explains them", "start": "communities"},
     "s5": {"description": "Conclusion and limits", "start": "conclusion"}
