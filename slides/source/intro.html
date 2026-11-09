@@ -1,0 +1,46 @@
+<section id="intro" data-transition="fade" style="background:#F6F4EF;color:#16202A;font-family:'Inter', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:28px">
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.1">Question and data: four types of nodes</h2>
+<div style="background:#14202B;color:#F3F1EC;padding:28px 36px;border-radius:16px;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:32px;font-weight:600;line-height:1.3">Who holds the offshore network together, and do its communities follow geography or the intermediaries?</p>
+<p style="font-size:24px;color:#BFC9D4;line-height:1.35">Data: ICIJ Offshore Leaks, Panama Papers subset of the bulk CSV of 9 September 2026 (ODbL, CC BY-SA 3.0)</p>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;padding:24px 28px;border:1px solid #DAD6CC;border-radius:16px">
+<p style="font-size:24px;font-weight:600;color:#1F5FBF;letter-spacing:2px;text-transform:uppercase">Entity</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1">213,634</p>
+<p style="font-size:26px;color:#16202A;line-height:1.3">An offshore company, trust or foundation</p>
+<p style="font-size:24px;color:#4A5663;line-height:1.35">E.g. a company registered in Samoa</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;padding:24px 28px;border:1px solid #DAD6CC;border-radius:16px">
+<p style="font-size:24px;font-weight:600;color:#1F5FBF;letter-spacing:2px;text-transform:uppercase">Officer</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1">238,402</p>
+<p style="font-size:26px;color:#16202A;line-height:1.3">Owns, directs or fronts an entity</p>
+<p style="font-size:24px;color:#4A5663;line-height:1.35">E.g. Mossfon Subscribers, a nominee of 3,882 entities</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;padding:24px 28px;border:1px solid #DAD6CC;border-radius:16px">
+<p style="font-size:24px;font-weight:600;color:#1F5FBF;letter-spacing:2px;text-transform:uppercase">Intermediary</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1">14,110</p>
+<p style="font-size:26px;color:#16202A;line-height:1.3">A law firm, bank or agent that ordered the structure</p>
+<p style="font-size:24px;color:#4A5663;line-height:1.35">E.g. Orion House Services (HK), 7,016 entities</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;padding:24px 28px;border:1px solid #DAD6CC;border-radius:16px">
+<p style="font-size:24px;font-weight:600;color:#1F5FBF;letter-spacing:2px;text-transform:uppercase">Address</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1">93,454</p>
+<p style="font-size:26px;color:#16202A;line-height:1.3">A postal address</p>
+<p style="font-size:24px;color:#4A5663;line-height:1.35">145,795 of 151,105 address links start from an officer</p>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#1D2D3C;color:#F3F1EC;padding:20px 28px;border-radius:16px">
+<p style="font-size:24px;line-height:1.35"><b style="color:#7FB2F0">officer_of</b> · 309,363 links</p>
+</div>
+<div style="flex:1;background:#1D2D3C;color:#F3F1EC;padding:20px 28px;border-radius:16px">
+<p style="font-size:24px;line-height:1.35"><b style="color:#7FB2F0">intermediary_of</b> · 213,634 links</p>
+</div>
+<div style="flex:1;background:#1D2D3C;color:#F3F1EC;padding:20px 28px;border-radius:16px">
+<p style="font-size:24px;line-height:1.35"><b style="color:#7FB2F0">registered_address</b> · 151,105 links</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Achille · 2 / 9 · Python, pandas, NetworkX 3.3, scipy · code on GitHub</p>
+<aside>Achille, about 50 seconds. Our question: who structures the offshore network of the Panama Papers? We look for the central intermediaries, officers and jurisdictions, then check whether Louvain communities follow the jurisdictions, the countries of the officers or the intermediaries. The data is the ICIJ Offshore Leaks bulk file, Panama Papers subset, under ODbL and CC BY-SA. It is a graph stored in CSV with four node types. An entity is the offshore company itself. An officer owns, directs or fronts an entity; some are nominees, like Mossfon Subscribers in Samoa, linked to 3,882 entities. An intermediary is a law firm, bank or agent that ordered the structure for its clients; the biggest, Orion House Services in Hong Kong, is linked to 7,016 entities. An address is a postal address; most address links start from an officer. Three link types attach an entity to the network: officer_of, intermediary_of and registered_address. We call officers, intermediaries and addresses the connectors, because they are what links two entities. Panama Papers only: the Pandora entities have no relationships in the bulk file.</aside>
+</section>
