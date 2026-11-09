@@ -5,8 +5,6 @@ author: "Achille Krotoff, Jad Yousri, Adrian Ravas"
 date: "10 November 2026"
 ---
 
-> DRAFT. Sections marked **[TODO]** wait for a teammate or for a final check. Replace this header with the Inside template before submission.
-
 ## 1. Introduction and question
 
 The Panama Papers leak (2016) exposed the client files of the law firm Mossack Fonseca: thousands of offshore companies, the people behind them and the intermediaries that ordered them. The International Consortium of Investigative Journalists (ICIJ) published the structure as a graph.
@@ -99,7 +97,7 @@ In the largest projection component, eccentricities are centered around 20 and r
 
 ## 6. Centralities
 
-**[TODO: Jad to check this section against notebook 03.]** We compute degree centrality, PageRank (damping 0.85) and betweenness on the bipartite graph and on the projection. Betweenness is estimated by sampling sources (50 on the 311,000-node bipartite giant component, 200 on the projection component, seed 0), because exact betweenness needs a shortest-path tree from every node.
+We compute degree centrality, PageRank (damping 0.85) and betweenness on the bipartite graph and on the projection. Betweenness is estimated by sampling sources (50 on the 311,000-node bipartite giant component, 200 on the projection component, seed 0), because exact betweenness needs a shortest-path tree from every node.
 
 ![Highest-degree intermediaries and officers](../figures/03_degree_intermediaries_officers.png){width=95%}
 
@@ -152,9 +150,10 @@ NMI ranks the intermediary first, the country of the officers second and the jur
 
 ## 9. Reproducibility, code and AI tools
 
-- **Code:** Python 3.12, pandas, NetworkX 3.3, scipy, python-louvain, matplotlib. Repository: https://github.com/achillekrtf/offshore-graph (`src/` for the code, `notebooks/` for the analysis, README for the steps to reproduce). The raw data is not stored in the repository.
-- **Reused code:** none beyond the libraries above. **[TODO: confirm with Jad and Adrian.]**
-- **AI tools used and purpose:** Claude Code (Anthropic) helped to write the loading and graph-construction code, the diameter computation, the cap sensitivity test and notebooks 01 and 02, and to draft this report; every number was recomputed by a script and checked by the authors. **[TODO: each member lists their own tools, e.g. Cursor and Neo4j assistance for notebook 03 and the Neo4j dashboard, and for notebook 04.]**
+- **Software and methods:** all analyses are run in NetworkX 3.3 (Python 3.12) with pandas, scipy and python-louvain. Louvain uses the NetworkX implementation, cross-checked once with python-louvain. Neo4j (local instance) was used only for a dashboard of the centrality rankings and to check the intermediary degrees with Cypher queries (`neo4j/`). Every parameter (hub caps, sampling sizes, resolution, seeds) is stated in the sections above and fixed in the notebooks, so the analysis can be reproduced.
+- **Code:** Repository: https://github.com/achillekrtf/offshore-graph (`src/` for the code, `notebooks/` for the analysis, README for the steps to reproduce). The raw data is not stored in the repository.
+- **Reused code:** no existing code for this dataset was reused. Apart from the libraries above and the algorithms cited in the references, all code was written by the group.
+- **AI tools used and purpose:** Claude Code (Anthropic) helped to write the loading and graph-construction code, the diameter computation, the cap sensitivity test and notebooks 01 and 02, and to draft this report; every number was recomputed by a script and checked by the authors. **[TO COMPLETE before submission: Jad Yousri and Adrian Ravas each state the AI tools they used and for what, for notebook 03 with the Neo4j dashboard and for notebook 04.]**
 
 ## References
 
