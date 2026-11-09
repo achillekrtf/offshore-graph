@@ -34,7 +34,18 @@ Three relationship types connect an entity to the rest of the network: `officer_
 
 **Bipartite graph.** Entities on one side, connectors (officers, intermediaries, entity addresses) on the other. A link says "this connector is attached to this entity". The graph is undirected, simple and unweighted: only the existence of a link matters for our questions, and the direction of the ICIJ links (connector to entity) carries no further information. It has 468,623 nodes and 511,687 edges.
 
-**Entity projection.** Two entities are linked when they share a connector. The weight is the number of shared connectors. A connector attached to $d$ entities adds $d(d-1)/2$ edges, so the intermediary with 7,016 entities alone would add about 24.6 million edges. We cap the hubs in the projection: officers with more than 500 entities and intermediaries or addresses with more than 50 are ignored when linking entities. This gives 213,634 nodes and 1,238,967 weighted edges. [TODO: sensitivity of the cap (50, 100, 500).]
+**Entity projection.** Two entities are linked when they share a connector. The weight is the number of shared connectors. A connector attached to $d$ entities adds $d(d-1)/2$ edges, so the intermediary with 7,016 entities alone would add about 24.6 million edges. We cap the hubs in the projection: officers with more than 500 entities and intermediaries or addresses with more than 50 are ignored when linking entities. This gives 213,634 nodes and 1,238,967 weighted edges.
+
+**Sensitivity of the intermediary cap.** We rebuilt the projection with intermediary caps of 10, 50 (our choice), 100 and 500.
+
+| Intermediary cap | Edges | Isolated entities | Largest component |
+|---|---|---|---|
+| 10 | 857,671 | 153,511 (71.9 %) | 18,901 (8.8 %) |
+| **50** | **1,238,967** | **129,607 (60.7 %)** | **26,643 (12.5 %)** |
+| 100 | 2,060,376 | 111,417 (52.2 %) | 34,705 (16.2 %) |
+| 500 | 9,524,444 | 66,675 (31.2 %) | 73,218 (34.3 %) |
+
+A higher cap links more entities and grows the giant component, at the price of many more edges (7.7 times more at 500 than at 50) and of cliques created by a few big firms. The share of isolated entities stays between 31 % and 72 %, so the fragmentation of the projection is a property of the data and the cap only moves it. We keep 50 as a compromise between coverage and artificial cliques.
 
 ![Bipartite graph and projection on a toy example](../figures/01_toy_example.png){width=85%}
 
@@ -100,13 +111,36 @@ In the largest projection component, eccentricities are centered around 20 and r
 
 ## 7. Communities
 
-**[TODO: Adrian.]** Louvain on the weighted entity projection (parameters: resolution, seed, number of runs), community size distribution and modularity. Comparison of the communities with three references: the jurisdiction of the entities, the countries of the officers and the dominant intermediary of each community, measured by purity or normalized mutual information. Hypothesis to test: communities follow intermediaries, since a firm creates many entities in the same jurisdictions. The 129,607 isolated entities are excluded from this analysis and the report says so.
+**Method.** Louvain (Blondel et al., 2008) maximizes the weighted modularity of the entity projection, with resolution 1.0. The 129,607 isolated entities cannot belong to any community and are excluded, which leaves 84,027 entities: one giant component of 26,643 entities and 10,035 small components of 2 to 132 entities. The giant component is the main result. A small component of two entities sharing one officer is trivially one pure community and would inflate every score.
+
+**Stability.** Five seeds give 158 to 160 communities on the giant component, a modularity of 0.957 and a mean pairwise NMI of 0.98 between seeds. python-louvain gives 158 communities, modularity 0.957 and an NMI of 0.99 with the NetworkX partition.
+
+**Shape.** The giant component splits into 158 communities, the largest with 875 entities and a median of 92. Twenty-eight communities hold half of the entities and 75 communities of at least 100 entities hold 86 %. A modularity of 0.957 describes dense blocks joined by few edges, which matches the diameter of 30. On the whole connected part, 10,034 of the 10,035 small components are exactly one community each.
+
+![Community sizes](../figures/04_community_sizes.png){width=85%}
+
+**Which reference explains the communities.** Each entity carries three labels: its jurisdiction, the most frequent country of its officers and its intermediary. We measure agreement with purity, inverse purity and normalized mutual information (NMI), against a baseline where the labels are shuffled over the entities. The baseline matters because the British Virgin Islands hold 71 % of the giant component, so a random partition already looks pure for the jurisdiction.
+
+| Reference (giant component) | NMI | NMI of shuffled labels | Purity | Inverse purity |
+|---|---|---|---|---|
+| Intermediary | 0.77 | 0.20 | 0.51 | 0.79 |
+| Country of the officers | 0.43 | 0.06 | 0.57 | 0.21 |
+| Jurisdiction | 0.13 | 0.01 | 0.74 (baseline 0.71) | 0.07 |
+
+![Agreement of the communities with each reference](../figures/04_reference_scores.png){width=85%}
+
+NMI ranks the intermediary first, the country of the officers second and the jurisdiction last. Jurisdiction purity sits only 0.04 above its shuffled baseline. Inverse purity shows that 79 % of the entities sit in the community where most of their intermediary's clients sit, against 21 % for the officer country and 7 % for the jurisdiction. The communities therefore follow the client books of the intermediaries and, to a lesser extent, groups of officers from the same country. The order holds at every resolution from 0.25 to 4. A community is usually larger than one intermediary: the dominant intermediary covers 51 % of its community on average, and the largest communities group several firms from the same place, such as Jersey trust companies or Panama law firms.
+
+**Effect of the hub cap.** 65 % of the giant component's entities (17,278) have an intermediary above the cap of 50, so their intermediary created no edge. They still cluster by intermediary (NMI 0.80, purity 0.70), through the nominee officers and addresses that the clients of a big firm share. The cap removes the mechanical effect of a shared intermediary and the result remains.
+
+**Conclusion.** The hypothesis holds: the communities of the Panama Papers network follow the intermediaries more than the officers' countries and far more than the jurisdictions.
 
 ## 8. Discussion and limits
 
 - One leak only: no comparison across leaks, and the structure reflects one law firm's clients.
-- Hub cap: a modeling choice that changes distances and isolates 61 % of entities in the projection. [TODO: sensitivity result.]
+- Hub cap: a modeling choice that changes distances and isolates 61 % of entities in the projection (31 % to 72 % depending on the cap, section 3).
 - Sampled betweenness: reliable at the top of the ranking only.
+- Communities are computed on the 39 % of entities that are not isolated in the projection. The 61 % left out have no information to cluster on.
 - The bulk file reflects ICIJ's own deduplication and a data cut-off in 2015.
 - Names refer to companies and persons published by ICIJ. Presence in the leak does not imply wrongdoing.
 
@@ -114,7 +148,7 @@ In the largest projection component, eccentricities are centered around 20 and r
 
 - **Code:** Python 3.12, pandas, NetworkX 3.3, scipy, python-louvain, matplotlib. Repository: https://github.com/achillekrtf/offshore-graph (`src/` for the code, `notebooks/` for the analysis, README for the steps to reproduce). The raw data is not stored in the repository.
 - **Reused code:** none beyond the libraries above. **[TODO: confirm with Jad and Adrian.]**
-- **AI tools used and purpose:** Claude Code (Anthropic) helped to write the loading and graph-construction code, the diameter computation and notebooks 01 and 02, and to draft this report; every number was recomputed by a script and checked by the authors. **[TODO: each member lists their own tools, e.g. Cursor and Neo4j assistance for notebook 03 and the Neo4j dashboard, and for notebook 04.]**
+- **AI tools used and purpose:** Claude Code (Anthropic) helped to write the loading and graph-construction code, the diameter computation, the cap sensitivity test and notebooks 01 and 02, and to draft this report; every number was recomputed by a script and checked by the authors. **[TODO: each member lists their own tools, e.g. Cursor and Neo4j assistance for notebook 03 and the Neo4j dashboard, and for notebook 04.]**
 
 ## References
 
