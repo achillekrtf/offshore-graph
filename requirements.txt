@@ -6,3 +6,4 @@ jupyter
 ipykernel
 pyarrow
 scipy
+neo4j

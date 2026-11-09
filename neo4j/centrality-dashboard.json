@@ -1,0 +1,272 @@
+{
+  "uuid": "7c3e1a20-4b6d-4e8f-9a12-5d6e7f8091ab",
+  "title": "Panama Papers — who structures the network",
+  "version": "2.4",
+  "settings": {
+    "pagenumber": 0,
+    "editable": true,
+    "fullscreenEnabled": true,
+    "downloadImageEnabled": true,
+    "parameters": {}
+  },
+  "pages": [
+    {
+      "title": "Degree centrality",
+      "reports": [
+        {
+          "title": "How to read this dashboard",
+          "query": "Degree is counted live in this database. An intermediary's degree is the number of entities it points to with INTERMEDIARY_OF. An officer's degree is the number of OFFICER_OF links. An entity's degree adds its officers, its intermediaries, and its registered addresses. Degree centrality divides that number by n − 1 = 468,622.\n\nThe tallest officer bar is THE BEARER (degree 70,850), then EL PORTADOR (9,325). Those are bearer-share placeholders, not named people. The largest named officer is MOSSFON SUBSCRIBERS LTD. at 3,958.\n\nPageRank and betweenness are on the next pages. Those scores come from the NetworkX notebook, stored as :CentralityScore. Graph Data Science is installed on this server; the course report still uses the notebook.",
+          "width": 24,
+          "height": 4,
+          "x": 0,
+          "y": 0,
+          "type": "text",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Entities",
+          "query": "MATCH (n:Entity) RETURN count(n) AS value",
+          "width": 6,
+          "height": 3,
+          "x": 0,
+          "y": 4,
+          "type": "value",
+          "selection": {},
+          "settings": {"fontSize": 36, "textAlign": "center", "verticalAlign": "middle"}
+        },
+        {
+          "title": "Officers",
+          "query": "MATCH (n:Officer) RETURN count(n) AS value",
+          "width": 6,
+          "height": 3,
+          "x": 6,
+          "y": 4,
+          "type": "value",
+          "selection": {},
+          "settings": {"fontSize": 36, "textAlign": "center", "verticalAlign": "middle"}
+        },
+        {
+          "title": "Intermediaries",
+          "query": "MATCH (n:Intermediary) RETURN count(n) AS value",
+          "width": 6,
+          "height": 3,
+          "x": 12,
+          "y": 4,
+          "type": "value",
+          "selection": {},
+          "settings": {"fontSize": 36, "textAlign": "center", "verticalAlign": "middle"}
+        },
+        {
+          "title": "Addresses",
+          "query": "MATCH (n:Address) RETURN count(n) AS value",
+          "width": 6,
+          "height": 3,
+          "x": 18,
+          "y": 4,
+          "type": "value",
+          "selection": {},
+          "settings": {"fontSize": 36, "textAlign": "center", "verticalAlign": "middle"}
+        },
+        {
+          "title": "Highest-degree intermediaries",
+          "query": "MATCH (i:Intermediary)-[:INTERMEDIARY_OF]->(e:Entity)\nWITH i.name AS name, count(e) AS degree\nORDER BY degree DESC\nLIMIT 12\nRETURN CASE WHEN size(name) > 42 THEN substring(name, 0, 41) + '…' ELSE name END AS name, degree",
+          "width": 12,
+          "height": 8,
+          "x": 0,
+          "y": 7,
+          "type": "bar",
+          "selection": {"index": "name", "value": "degree", "key": "(none)"},
+          "settings": {"legend": false, "layout": "horizontal"}
+        },
+        {
+          "title": "Highest-degree officers",
+          "query": "MATCH (o:Officer)-[:OFFICER_OF]->(e:Entity)\nWITH o.name AS name, count(e) AS degree\nORDER BY degree DESC\nLIMIT 12\nRETURN CASE WHEN size(name) > 42 THEN substring(name, 0, 41) + '…' ELSE name END AS name, degree",
+          "width": 12,
+          "height": 8,
+          "x": 12,
+          "y": 7,
+          "type": "bar",
+          "selection": {"index": "name", "value": "degree", "key": "(none)"},
+          "settings": {"legend": false, "layout": "horizontal"}
+        }
+      ]
+    },
+    {
+      "title": "Entities and jurisdictions",
+      "reports": [
+        {
+          "title": "Highest-degree entities",
+          "query": "MATCH (e:Entity)\nWITH e,\n  COUNT { (e)<-[:OFFICER_OF]-() } +\n  COUNT { (e)<-[:INTERMEDIARY_OF]-() } +\n  COUNT { (e)-[:REGISTERED_ADDRESS]->(:Address) } AS degree\nORDER BY degree DESC\nLIMIT 15\nRETURN e.name AS name, e.jurisdiction AS jurisdiction, degree,\n       toFloat(degree) / 468622 AS degree_centrality",
+          "width": 14,
+          "height": 7,
+          "x": 0,
+          "y": 0,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Entities by jurisdiction",
+          "query": "MATCH (e:Entity)\nWITH e.jurisdiction AS jurisdiction, count(*) AS entities\nORDER BY entities DESC\nLIMIT 10\nRETURN jurisdiction, entities",
+          "width": 10,
+          "height": 7,
+          "x": 14,
+          "y": 0,
+          "type": "pie",
+          "selection": {"index": "jurisdiction", "value": "entities", "key": "(none)"},
+          "settings": {}
+        },
+        {
+          "title": "Share of entities and share of links, by jurisdiction",
+          "query": "MATCH (e:Entity)\nWITH e, COUNT { (e)<-[:OFFICER_OF]-() } + COUNT { (e)<-[:INTERMEDIARY_OF]-() } + COUNT { (e)-[:REGISTERED_ADDRESS]->(:Address) } AS degree\nWITH e.jurisdiction AS jurisdiction, count(*) AS entities, sum(degree) AS degree_sum\nWITH sum(entities) AS n, sum(degree_sum) AS d, collect({jurisdiction: jurisdiction, entities: entities, degree_sum: degree_sum}) AS rows\nUNWIND rows AS row\nRETURN row.jurisdiction AS jurisdiction,\n       row.entities AS entities,\n       toFloat(row.entities) / n AS share_of_entities,\n       toFloat(row.degree_sum) / d AS share_of_links\nORDER BY entities DESC\nLIMIT 12",
+          "width": 24,
+          "height": 7,
+          "x": 0,
+          "y": 7,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        }
+      ]
+    },
+    {
+      "title": "PageRank",
+      "reports": [
+        {
+          "title": "Where these scores come from",
+          "query": "PageRank, damping 0.85, calculated in NetworkX on the undirected bipartite graph and on the largest component of the capped entity projection. A score of about 0.000002 is an average node on the bipartite graph. The bars are the raw PageRank of the top intermediaries. The projection drops connectors above the cap, so the giant intermediaries are not nodes there.",
+          "width": 24,
+          "height": 3,
+          "x": 0,
+          "y": 0,
+          "type": "text",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Intermediaries by PageRank",
+          "query": "MATCH (n:CentralityScore {graph:'bipartite', measure:'pagerank', kind:'intermediary'})\nRETURN CASE WHEN size(n.name) > 42 THEN substring(n.name, 0, 41) + '…' ELSE n.name END AS name, n.score AS pagerank\nORDER BY n.rank",
+          "width": 12,
+          "height": 7,
+          "x": 0,
+          "y": 3,
+          "type": "bar",
+          "selection": {"index": "name", "value": "pagerank", "key": "(none)"},
+          "settings": {"legend": false, "layout": "horizontal"}
+        },
+        {
+          "title": "Officers by PageRank",
+          "query": "MATCH (n:CentralityScore {graph:'bipartite', measure:'pagerank', kind:'officer'})\nRETURN n.rank AS rank, n.name AS name, n.extra AS countries, n.score AS pagerank\nORDER BY rank",
+          "width": 12,
+          "height": 7,
+          "x": 12,
+          "y": 3,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Entities by PageRank, bipartite graph",
+          "query": "MATCH (n:CentralityScore {graph:'bipartite', measure:'pagerank', kind:'entity'})\nRETURN n.rank AS rank, n.name AS name, n.extra AS jurisdiction, n.score AS pagerank\nORDER BY rank",
+          "width": 12,
+          "height": 6,
+          "x": 0,
+          "y": 10,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Entities by PageRank, projection component",
+          "query": "MATCH (n:CentralityScore {graph:'projection', measure:'pagerank', kind:'entity'})\nRETURN n.rank AS rank, n.name AS name, n.extra AS jurisdiction, n.score AS pagerank\nORDER BY rank",
+          "width": 12,
+          "height": 6,
+          "x": 12,
+          "y": 10,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        }
+      ]
+    },
+    {
+      "title": "Betweenness",
+      "reports": [
+        {
+          "title": "Sampling",
+          "query": "Exact betweenness would start a shortest-path search from every node. On the bipartite giant component that is about 311,000 starts, which does not finish in NetworkX. These scores use 50 random sources on that component and 200 sources on the projection component, seed 0, distances in hops. Read the top of each list. A small gap between two mid-ranked names is not a reliable difference.",
+          "width": 24,
+          "height": 3,
+          "x": 0,
+          "y": 0,
+          "type": "text",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Intermediaries by betweenness",
+          "query": "MATCH (n:CentralityScore {graph:'bipartite', measure:'betweenness', kind:'intermediary'})\nRETURN n.rank AS rank, n.name AS name, n.extra AS countries, n.score AS betweenness\nORDER BY rank",
+          "width": 12,
+          "height": 7,
+          "x": 0,
+          "y": 3,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Officers by betweenness",
+          "query": "MATCH (n:CentralityScore {graph:'bipartite', measure:'betweenness', kind:'officer'})\nRETURN n.rank AS rank, n.name AS name, n.extra AS countries, n.score AS betweenness\nORDER BY rank",
+          "width": 12,
+          "height": 7,
+          "x": 12,
+          "y": 3,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Entities by betweenness, projection component",
+          "query": "MATCH (n:CentralityScore {graph:'projection', measure:'betweenness', kind:'entity'})\nRETURN n.rank AS rank, n.name AS name, n.extra AS jurisdiction, n.score AS betweenness\nORDER BY rank",
+          "width": 24,
+          "height": 6,
+          "x": 0,
+          "y": 10,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        }
+      ]
+    },
+    {
+      "title": "One hub and its entities",
+      "reports": [
+        {
+          "title": "Orion House and 40 of its entities",
+          "query": "MATCH (i:Intermediary)-[r:INTERMEDIARY_OF]->(e:Entity)\nWHERE i.name STARTS WITH 'ORION HOUSE SERVICES'\nWITH i, r, e\nLIMIT 40\nRETURN i, r, e",
+          "width": 16,
+          "height": 8,
+          "x": 0,
+          "y": 0,
+          "type": "graph",
+          "selection": {"Intermediary": "name", "Entity": "name"},
+          "settings": {}
+        },
+        {
+          "title": "Jurisdictions of Orion House clients",
+          "query": "MATCH (i:Intermediary)-[:INTERMEDIARY_OF]->(e:Entity)\nWHERE i.name STARTS WITH 'ORION HOUSE SERVICES'\nRETURN e.jurisdiction AS jurisdiction, count(*) AS entities\nORDER BY entities DESC\nLIMIT 8",
+          "width": 8,
+          "height": 8,
+          "x": 16,
+          "y": 0,
+          "type": "bar",
+          "selection": {"index": "jurisdiction", "value": "entities", "key": "(none)"},
+          "settings": {"legend": false, "layout": "horizontal"}
+        }
+      ]
+    }
+  ],
+  "parameters": {},
+  "extensions": {}
+}
