@@ -3,6 +3,7 @@ title: "Who structures the offshore network of the Panama Papers?"
 subtitle: "Graph Analytics 2026 (MSA-DAT07-05), project report"
 author: "Achille Krotoff, Jad Yousri, Adrian Ravas"
 date: "10 November 2026"
+link: "Code and data instructions: https://github.com/achillekrtf/offshore-graph"
 ---
 
 ## 1. Introduction and question

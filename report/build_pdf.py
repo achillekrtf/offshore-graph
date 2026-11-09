@@ -24,7 +24,7 @@ td,th{border:1px solid #bbb;padding:3pt 6pt;text-align:left}th{background:#f0f0f
 figure{margin:8pt 0;text-align:center;page-break-inside:avoid}figcaption{font-size:9pt;color:#555}
 blockquote{background:#fff4d6;margin:8pt 0;padding:4pt 10pt;border-left:3px solid #e0a800}
 p:has(+ul),p:has(+table),p:has(+figure){break-after:avoid}h2{break-after:avoid}table{break-inside:avoid}@page{size:A4;margin:18mm}"""
-head = f'<h1>{meta.get("title","")}</h1><p class="sub">{meta.get("subtitle","")}</p><p class="auth">{meta.get("author","")} - {meta.get("date","")}</p>'
+head = f'<h1>{meta.get("title","")}</h1><p class="sub">{meta.get("subtitle","")}</p><p class="auth">{meta.get("author","")} - {meta.get("date","")}</p><p class="auth">{meta.get("link","")}</p>'
 html = f"<!doctype html><meta charset=utf-8><style>{css}</style>{head}{body}"
 out = here / "report.html"; out.write_text(html)
 chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
