@@ -1,0 +1,48 @@
+node.Entity {
+  color: #4C78A8;
+  border-color: #2F528F;
+  text-color-internal: #FFFFFF;
+  caption: '{name}';
+  diameter: 50px;
+}
+node.Officer {
+  color: #F58518;
+  border-color: #C46A0A;
+  text-color-internal: #FFFFFF;
+  caption: '{name}';
+  diameter: 40px;
+}
+node.Intermediary {
+  color: #E45756;
+  border-color: #B33A3A;
+  text-color-internal: #FFFFFF;
+  caption: '{name}';
+  diameter: 65px;
+}
+node.Address {
+  color: #54A24B;
+  border-color: #2E7D32;
+  text-color-internal: #FFFFFF;
+  caption: '{name}';
+  diameter: 35px;
+}
+node.CentralityScore {
+  color: #B279A2;
+  border-color: #7A4E73;
+  text-color-internal: #FFFFFF;
+  caption: '{name}';
+  diameter: 30px;
+}
+relationship {
+  color: #8A8A8A;
+  shaft-width: 1px;
+}
+relationship.OFFICER_OF {
+  color: #F58518;
+}
+relationship.INTERMEDIARY_OF {
+  color: #E45756;
+}
+relationship.REGISTERED_ADDRESS {
+  color: #54A24B;
+}

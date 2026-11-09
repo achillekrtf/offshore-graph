@@ -1,6 +1,6 @@
 """Load the Panama Papers subset into Neo4j.
 
-Nodes get a shared :Panama label plus Entity, Officer, Intermediary, or Address.
+Nodes are labeled Entity, Officer, Intermediary, or Address, and each label has its own color.
 Relationships keep the CSV direction: OFFICER_OF, INTERMEDIARY_OF, REGISTERED_ADDRESS.
 
 Credentials come from NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD, and NEO4J_DATABASE.
@@ -33,6 +33,13 @@ REL = {
     "intermediary_of": "INTERMEDIARY_OF",
     "registered_address": "REGISTERED_ADDRESS",
 }
+COLOR = {
+    "Entity": "#4C78A8",
+    "Officer": "#F58518",
+    "Intermediary": "#E45756",
+    "Address": "#54A24B",
+}
+ANY = "Entity|Officer|Intermediary|Address"
 
 
 def credentials():
@@ -72,22 +79,24 @@ def main():
     print(f"connected to {uri} database={database}", flush=True)
 
     with driver.session(database=database) as session:
-        run(
-            session,
-            "CREATE CONSTRAINT panama_node_id IF NOT EXISTS "
-            "FOR (n:Panama) REQUIRE n.node_id IS UNIQUE",
-        )
+        for label in LABEL.values():
+            run(
+                session,
+                f"CREATE CONSTRAINT {label.lower()}_node_id IF NOT EXISTS "
+                f"FOR (n:{label}) REQUIRE n.node_id IS UNIQUE",
+            )
         for kind, label in LABEL.items():
             part = nodes.loc[nodes.kind == kind, ["node_id", "name", "jurisdiction_description", "countries"]]
             part = part.rename(columns={"jurisdiction_description": "jurisdiction"})
             recs = rows(part)
             query = (
                 "UNWIND $rows AS row "
-                f"MERGE (n:Panama {{node_id: row.node_id}}) "
-                f"SET n:{label}, n.name = row.name, n.jurisdiction = row.jurisdiction, n.countries = row.countries"
+                f"MERGE (n:{label} {{node_id: row.node_id}}) "
+                "SET n.name = row.name, n.jurisdiction = row.jurisdiction, n.countries = row.countries, "
+                "n.kind = $kind, n.color = $color"
             )
             for batch, start in batches(recs):
-                run(session, query, {"rows": batch})
+                run(session, query, {"rows": batch, "kind": label, "color": COLOR[label]})
                 print(f"{label} {start + len(batch)}/{len(recs)}", flush=True)
 
         for rel_type, rel_label in REL.items():
@@ -96,7 +105,7 @@ def main():
             recs = rows(part)
             query = (
                 "UNWIND $rows AS row "
-                "MATCH (a:Panama {node_id: row.start}), (b:Panama {node_id: row.end}) "
+                f"MATCH (a:{ANY} {{node_id: row.start}}), (b:{ANY} {{node_id: row.end}}) "
                 f"MERGE (a)-[:{rel_label}]->(b)"
             )
             for batch, start in batches(recs):
@@ -104,7 +113,7 @@ def main():
                 print(f"{rel_label} {start + len(batch)}/{len(recs)}", flush=True)
 
         counts = session.run(
-            "MATCH (n:Panama) "
+            f"MATCH (n:{ANY}) "
             "RETURN count(n) AS nodes, "
             "count { MATCH ()-[r]->() } AS rels"
         ).single()

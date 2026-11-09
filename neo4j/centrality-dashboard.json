@@ -33,7 +33,11 @@
           "y": 4,
           "type": "value",
           "selection": {},
-          "settings": {"fontSize": 36, "textAlign": "center", "verticalAlign": "middle"}
+          "settings": {
+            "fontSize": 36,
+            "textAlign": "center",
+            "verticalAlign": "middle"
+          }
         },
         {
           "title": "Officers",
@@ -44,7 +48,11 @@
           "y": 4,
           "type": "value",
           "selection": {},
-          "settings": {"fontSize": 36, "textAlign": "center", "verticalAlign": "middle"}
+          "settings": {
+            "fontSize": 36,
+            "textAlign": "center",
+            "verticalAlign": "middle"
+          }
         },
         {
           "title": "Intermediaries",
@@ -55,7 +63,11 @@
           "y": 4,
           "type": "value",
           "selection": {},
-          "settings": {"fontSize": 36, "textAlign": "center", "verticalAlign": "middle"}
+          "settings": {
+            "fontSize": 36,
+            "textAlign": "center",
+            "verticalAlign": "middle"
+          }
         },
         {
           "title": "Addresses",
@@ -66,7 +78,11 @@
           "y": 4,
           "type": "value",
           "selection": {},
-          "settings": {"fontSize": 36, "textAlign": "center", "verticalAlign": "middle"}
+          "settings": {
+            "fontSize": 36,
+            "textAlign": "center",
+            "verticalAlign": "middle"
+          }
         },
         {
           "title": "Highest-degree intermediaries",
@@ -76,8 +92,15 @@
           "x": 0,
           "y": 7,
           "type": "bar",
-          "selection": {"index": "name", "value": "degree", "key": "(none)"},
-          "settings": {"legend": false, "layout": "horizontal"}
+          "selection": {
+            "index": "name",
+            "value": "degree",
+            "key": "(none)"
+          },
+          "settings": {
+            "legend": false,
+            "layout": "horizontal"
+          }
         },
         {
           "title": "Highest-degree officers",
@@ -87,8 +110,15 @@
           "x": 12,
           "y": 7,
           "type": "bar",
-          "selection": {"index": "name", "value": "degree", "key": "(none)"},
-          "settings": {"legend": false, "layout": "horizontal"}
+          "selection": {
+            "index": "name",
+            "value": "degree",
+            "key": "(none)"
+          },
+          "settings": {
+            "legend": false,
+            "layout": "horizontal"
+          }
         }
       ]
     },
@@ -114,7 +144,11 @@
           "x": 14,
           "y": 0,
           "type": "pie",
-          "selection": {"index": "jurisdiction", "value": "entities", "key": "(none)"},
+          "selection": {
+            "index": "jurisdiction",
+            "value": "entities",
+            "key": "(none)"
+          },
           "settings": {}
         },
         {
@@ -152,8 +186,15 @@
           "x": 0,
           "y": 3,
           "type": "bar",
-          "selection": {"index": "name", "value": "pagerank", "key": "(none)"},
-          "settings": {"legend": false, "layout": "horizontal"}
+          "selection": {
+            "index": "name",
+            "value": "pagerank",
+            "key": "(none)"
+          },
+          "settings": {
+            "legend": false,
+            "layout": "horizontal"
+          }
         },
         {
           "title": "Officers by PageRank",
@@ -250,7 +291,10 @@
           "x": 0,
           "y": 0,
           "type": "graph",
-          "selection": {"Intermediary": "name", "Entity": "name"},
+          "selection": {
+            "Intermediary": "name",
+            "Entity": "name"
+          },
           "settings": {}
         },
         {
@@ -261,8 +305,247 @@
           "x": 16,
           "y": 0,
           "type": "bar",
-          "selection": {"index": "jurisdiction", "value": "entities", "key": "(none)"},
-          "settings": {"legend": false, "layout": "horizontal"}
+          "selection": {
+            "index": "jurisdiction",
+            "value": "entities",
+            "key": "(none)"
+          },
+          "settings": {
+            "legend": false,
+            "layout": "horizontal"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Cross-border flows",
+      "reports": [
+        {
+          "title": "Where the firm sits, and where the company is registered",
+          "query": "Each bar is a route from the intermediary's country to the jurisdiction of the company it set up. Hong Kong firms incorporate 27,131 British Virgin Islands companies, the largest route. Switzerland is next, into the British Virgin Islands (16,855) and Panama (10,497). The agent and the shell are usually in different countries.",
+          "width": 24,
+          "height": 3,
+          "x": 0,
+          "y": 0,
+          "type": "text",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Largest routes, firm country to company jurisdiction",
+          "query": "MATCH (i:Intermediary)-[:INTERMEDIARY_OF]->(e:Entity)\nWHERE i.countries IS NOT NULL AND e.jurisdiction IS NOT NULL\nWITH split(i.countries, ';')[0] AS firm_country, e.jurisdiction AS company_jurisdiction, count(*) AS entities\nORDER BY entities DESC\nLIMIT 12\nRETURN firm_country + ' → ' + company_jurisdiction AS name, entities AS value",
+          "width": 14,
+          "height": 8,
+          "x": 0,
+          "y": 3,
+          "type": "bar",
+          "selection": {
+            "index": "name",
+            "value": "value",
+            "key": "(none)"
+          },
+          "settings": {
+            "legend": false,
+            "layout": "horizontal"
+          }
+        },
+        {
+          "title": "The same routes as a table",
+          "query": "MATCH (i:Intermediary)-[:INTERMEDIARY_OF]->(e:Entity)\nWHERE i.countries IS NOT NULL AND e.jurisdiction IS NOT NULL\nWITH split(i.countries, ';')[0] AS firm_country, e.jurisdiction AS company_jurisdiction, count(*) AS entities\nORDER BY entities DESC\nLIMIT 12\nRETURN firm_country, company_jurisdiction, entities",
+          "width": 10,
+          "height": 8,
+          "x": 14,
+          "y": 3,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        }
+      ]
+    },
+    {
+      "title": "Nominee shells",
+      "reports": [
+        {
+          "title": "Names that stand in for an owner",
+          "query": "THE BEARER is a bearer share, not a person: whoever holds the paper owns the company. Officers with that name are attached to 70,850 companies. EL PORTADOR is the same device in Spanish, on 9,325 companies. MOSSFON SUBSCRIBERS LTD. in Samoa is the largest named nominee, on 3,958 companies. The graph shows 40 of that nominee's companies.",
+          "width": 24,
+          "height": 3,
+          "x": 0,
+          "y": 0,
+          "type": "text",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "How many companies hide behind each name",
+          "query": "MATCH (o:Officer)-[:OFFICER_OF]->(e:Entity)\nWHERE o.name IN ['THE BEARER', 'EL PORTADOR', 'MOSSFON SUBSCRIBERS LTD.']\nRETURN o.name AS name, count(e) AS value\nORDER BY value DESC",
+          "width": 12,
+          "height": 8,
+          "x": 0,
+          "y": 3,
+          "type": "bar",
+          "selection": {
+            "index": "name",
+            "value": "value",
+            "key": "(none)"
+          },
+          "settings": {
+            "legend": false,
+            "layout": "horizontal"
+          }
+        },
+        {
+          "title": "40 companies of Mossfon Subscribers Ltd.",
+          "query": "MATCH (o:Officer {name:'MOSSFON SUBSCRIBERS LTD.', countries:'Samoa'})-[r:OFFICER_OF]->(e:Entity)\nWITH o, r, e\nLIMIT 40\nRETURN o, r, e",
+          "width": 12,
+          "height": 8,
+          "x": 12,
+          "y": 3,
+          "type": "graph",
+          "selection": {
+            "Officer": "name",
+            "Entity": "name"
+          },
+          "settings": {}
+        }
+      ]
+    },
+    {
+      "title": "Shared addresses",
+      "reports": [
+        {
+          "title": "One building, several spellings",
+          "query": "Akara Building, 24 De Castro Street, Wickhams Cay, Road Town, Tortola is a Mossack Fonseca shelf address. It is stored as four different strings and those four nodes alone are the registered address of about 3,170 officers and companies. A shared address is a mail drop, not evidence that the holders work in the same room. The graph shows 40 of the holders of the most common spelling.",
+          "width": 24,
+          "height": 3,
+          "x": 0,
+          "y": 0,
+          "type": "text",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Addresses used by the most holders",
+          "query": "MATCH (n)-[:REGISTERED_ADDRESS]->(a:Address)\nWITH a, count(n) AS holders\nORDER BY holders DESC\nLIMIT 12\nRETURN CASE WHEN size(a.name) > 42 THEN substring(a.name, 0, 41) + '…' ELSE a.name END AS name, holders AS value",
+          "width": 12,
+          "height": 8,
+          "x": 0,
+          "y": 3,
+          "type": "bar",
+          "selection": {
+            "index": "name",
+            "value": "value",
+            "key": "(none)"
+          },
+          "settings": {
+            "legend": false,
+            "layout": "horizontal"
+          }
+        },
+        {
+          "title": "40 holders of Akara Building",
+          "query": "MATCH (a:Address) WHERE a.name STARTS WITH 'AKARA BLDG.; 24 DE CASTRO STREET'\nMATCH (n)-[r:REGISTERED_ADDRESS]->(a)\nWITH a, r, n\nLIMIT 40\nRETURN a, r, n",
+          "width": 12,
+          "height": 8,
+          "x": 12,
+          "y": 3,
+          "type": "graph",
+          "selection": {
+            "Address": "name",
+            "Officer": "name",
+            "Entity": "name",
+            "Intermediary": "name"
+          },
+          "settings": {}
+        }
+      ]
+    },
+    {
+      "title": "Bridge offices",
+      "reports": [
+        {
+          "title": "Who sits on the paths between companies",
+          "query": "Betweenness estimates how often a firm lies on a shortest path between other nodes. It was sampled in the notebook, 50 sources on the giant component. Mossack Fonseca Singapore is first (0.150) and the UK office is second (0.135). Orion House has the largest client book but ranks third (0.098). Singapore and the UK connect groups of companies that otherwise do not meet. The graph shows 40 companies of the Singapore office.",
+          "width": 24,
+          "height": 3,
+          "x": 0,
+          "y": 0,
+          "type": "text",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Intermediaries by betweenness",
+          "query": "MATCH (n:CentralityScore {graph:'bipartite', measure:'betweenness', kind:'intermediary'})\nRETURN CASE WHEN size(n.name) > 42 THEN substring(n.name, 0, 41) + '…' ELSE n.name END AS name, n.score AS value\nORDER BY n.rank",
+          "width": 12,
+          "height": 8,
+          "x": 0,
+          "y": 3,
+          "type": "bar",
+          "selection": {
+            "index": "name",
+            "value": "value",
+            "key": "(none)"
+          },
+          "settings": {
+            "legend": false,
+            "layout": "horizontal"
+          }
+        },
+        {
+          "title": "40 companies of Mossack Fonseca Singapore",
+          "query": "MATCH (i:Intermediary) WHERE i.name STARTS WITH 'MOSSACK FONSECA & CO. (SINGAPORE)'\nMATCH (i)-[r:INTERMEDIARY_OF]->(e:Entity)\nWITH i, r, e\nLIMIT 40\nRETURN i, r, e",
+          "width": 12,
+          "height": 8,
+          "x": 12,
+          "y": 3,
+          "type": "graph",
+          "selection": {
+            "Intermediary": "name",
+            "Entity": "name"
+          },
+          "settings": {}
+        }
+      ]
+    },
+    {
+      "title": "Shared connectors",
+      "reports": [
+        {
+          "title": "Companies tied by a smaller shared officer",
+          "query": "The entity projection links two companies when they share an officer, an intermediary, or an address, and it ignores a connector above the cap. Giant firms such as Orion House therefore disappear, and PageRank promotes a different set of companies. Four of the top five are a Bahamas block: Follet Corporation, Iceland Management, Alpine Investments, and Lovena Investments. The graph draws Follet Corporation and the Bahamas companies that share one of its officers.",
+          "width": 24,
+          "height": 3,
+          "x": 0,
+          "y": 0,
+          "type": "text",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Entities by PageRank on the projection",
+          "query": "MATCH (n:CentralityScore {graph:'projection', measure:'pagerank', kind:'entity'})\nRETURN n.rank AS rank, n.name AS name, n.extra AS jurisdiction, n.score AS pagerank\nORDER BY rank",
+          "width": 12,
+          "height": 8,
+          "x": 0,
+          "y": 3,
+          "type": "table",
+          "selection": {},
+          "settings": {}
+        },
+        {
+          "title": "Follet Corporation and its Bahamas neighbors",
+          "query": "MATCH (e:Entity {name:'FOLLET CORPORATION'})<-[r1:OFFICER_OF]-(o:Officer)-[r2:OFFICER_OF]->(other:Entity)\nWHERE other.jurisdiction = 'Bahamas' AND other <> e\nRETURN e, r1, o, r2, other",
+          "width": 12,
+          "height": 8,
+          "x": 12,
+          "y": 3,
+          "type": "graph",
+          "selection": {
+            "Entity": "name",
+            "Officer": "name"
+          },
+          "settings": {}
         }
       ]
     }
