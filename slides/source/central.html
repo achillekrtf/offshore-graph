@@ -1,28 +1,28 @@
-<section id="central" data-transition="fade" style="background:#F6F4EF;color:#16202A;font-family:'Inter', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:36px">
-<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.1">Step 5a: degree and PageRank, who has the links</h2>
-<div style="display:flex;gap:40px;align-items:center">
-<img src="/_blob/2e54aab43cb7981afb139e39a8d3c8d7" alt="Bar charts of the intermediaries and officers with the most linked entities" style="width:800px;height:372px;object-fit:contain;background:#FFFFFF;border:1px solid #DAD6CC;border-radius:16px">
-<div style="flex:1;display:flex;flex-direction:column;gap:16px">
-<div style="background:#0E1822;padding:28px;border-radius:16px">
-<p style="font-family:'JetBrains Mono', Consolas, monospace;font-size:24px;line-height:1.6;color:#E6EDF3;white-space:nowrap">degB = pd.Series(dict(B.degree()))<br>prB = nx.pagerank(B, alpha=<span style="color:#F0B36A">0.85</span>,<br>tol=<span style="color:#F0B36A">1e-6</span>)</p>
-</div>
-<p style="font-size:26px;color:#4A5663;line-height:1.35">Degree = number of links. PageRank = links to important nodes.</p>
-</div>
-</div>
-<div style="display:flex;gap:24px">
-<div style="flex:1;background:#14202B;color:#F3F1EC;padding:24px 28px;border-radius:16px">
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1;color:#7FB2F0">7,016</p>
-<p style="font-size:24px;color:#D5DCE3;line-height:1.35">entities, top intermediary (Orion House)</p>
-</div>
-<div style="flex:1;background:#14202B;color:#F3F1EC;padding:24px 28px;border-radius:16px">
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1;color:#7FB2F0">3,882</p>
-<p style="font-size:24px;color:#D5DCE3;line-height:1.35">entities, top officer (next: 368)</p>
-</div>
-<div style="flex:1;background:#14202B;color:#F3F1EC;padding:24px 28px;border-radius:16px">
-<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:48px;font-weight:700;line-height:1;color:#7FB2F0">0.92</p>
-<p style="font-size:24px;color:#D5DCE3;line-height:1.35">rank correlation, degree vs PageRank</p>
-</div>
-</div>
-<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Jad · 5 / 9 · notebook 03, bipartite graph</p>
-<aside>Jad, about 55 seconds. To adapt to your own words. Two measures on the bipartite graph. Degree is the number of entities an intermediary or an officer is linked to. PageRank gives more weight to a node whose neighbors are themselves important, with a damping of 0.85. Results: Orion House Services in Hong Kong is linked to 7,016 entities, Mossack Fonseca Panama to 4,364, then Prime Corporate Solutions and Offshore Business Consultant. The top 15 intermediaries by degree and by PageRank are the same 15 names, with a rank correlation of 0.92 over all intermediaries. Among officers, Mossfon Subscribers Ltd in Samoa is linked to 3,882 entities against 368 for the next one: a nominee company used as a front for thousands of entities.</aside>
+<section id="central" data-transition="fade" style="background:#f6f4ef">
+  <p id="e1-1pciq8q" style="position:absolute; bottom:64px; left:128px; font-family:Inter, Arial, sans-serif; font-size:24px; color:#6a7179">Jad · 5 / 9 · notebook 03, bipartite graph</p>
+  <h2 id="pc2731325dd93r0-9979ffe5" style="position:absolute; top:128px; left:128px; width:1664px; font-family:'Space Grotesk', Arial, sans-serif; font-size:64px; font-weight:700; line-height:1.1; color:#16202a">Step 5a: degree and PageRank, who has the links</h2>
+  <div id="pc2731325dd93r1-9979ffe5" style="position:absolute; top:309px; left:128px; width:1664px; height:372px; display:flex; flex-direction:row; gap:40px; align-items:center">
+    <img src="/_blob/2e54aab43cb7981afb139e39a8d3c8d7" alt="Bar charts of the intermediaries and officers with the most linked entities" style="width:800px; height:372px; background:#ffffff; border:1px solid #dad6cc; border-radius:16px; object-fit:contain">
+    <div style="display:flex; flex-direction:column; gap:16px; flex:1">
+      <div style="display:flex; flex-direction:column; padding:28px; background:#0e1822; border-radius:16px">
+        <p style="font-family:'JetBrains Mono', monospace; font-size:24px; line-height:1.6; white-space:nowrap; color:#e6edf3">degB = pd.Series(dict(B.degree()))<br>prB = nx.pagerank(B, alpha=<span style="color:#f0b36a">0.85</span>,<br>tol=<span style="color:#f0b36a">1e-6</span>)</p>
+      </div>
+      <p style="font-family:Inter, Arial, sans-serif; font-size:26px; line-height:1.35; color:#4a5663">Degree = number of links. PageRank = links to important nodes.</p>
+    </div>
+  </div>
+  <div id="pc2731325dd93r2-9979ffe5" style="position:absolute; top:792px; left:128px; width:1664px; height:129px; display:flex; flex-direction:row; gap:24px">
+    <div style="display:flex; flex-direction:column; flex:1; padding:24px 28px; background:#14202b; border-radius:16px">
+      <p style="font-family:'Space Grotesk', Arial, sans-serif; font-size:48px; font-weight:700; line-height:1; color:#7fb2f0">7,016</p>
+      <p style="font-family:Inter, Arial, sans-serif; font-size:24px; line-height:1.35; color:#d5dce3">entities, top intermediary (Orion House)</p>
+    </div>
+    <div style="display:flex; flex-direction:column; flex:1; padding:24px 28px; background:#14202b; border-radius:16px">
+      <p style="font-family:'Space Grotesk', Arial, sans-serif; font-size:48px; font-weight:700; line-height:1; color:#7fb2f0">3,882</p>
+      <p style="font-family:Inter, Arial, sans-serif; font-size:24px; line-height:1.35; color:#d5dce3">entities, top officer (next: 368)</p>
+    </div>
+    <div style="display:flex; flex-direction:column; flex:1; padding:24px 28px; background:#14202b; border-radius:16px">
+      <p style="font-family:'Space Grotesk', Arial, sans-serif; font-size:48px; font-weight:700; line-height:1; color:#7fb2f0">0.92</p>
+      <p style="font-family:Inter, Arial, sans-serif; font-size:24px; line-height:1.35; color:#d5dce3">rank correlation, degree vs PageRank</p>
+    </div>
+  </div>
+  <aside>Jad, about 55 seconds. To adapt to your own words. Two measures on the bipartite graph. Degree is the number of entities an intermediary or an officer is linked to. PageRank gives more weight to a node whose neighbors are themselves important, with a damping of 0.85. Results: Orion House Services in Hong Kong is linked to 7,016 entities, Mossack Fonseca Panama to 4,364, then Prime Corporate Solutions and Offshore Business Consultant. The top 15 intermediaries by degree and by PageRank are the same 15 names, with a rank correlation of 0.92 over all intermediaries. Among officers, Mossfon Subscribers Ltd in Samoa is linked to 3,882 entities against 368 for the next one: a nominee company used as a front for thousands of entities.</aside>
 </section>

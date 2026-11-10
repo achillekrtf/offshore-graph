@@ -1,0 +1,29 @@
+<section id="bipartite" data-transition="fade" style="background:#F6F4EF;color:#16202A;font-family:'Inter', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:36px">
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.1">Steps 1 and 2: from CSV files to a bipartite graph</h2>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;padding:32px;border:1px solid #DAD6CC;border-radius:16px">
+<p style="font-size:24px;font-weight:600;color:#1F5FBF;letter-spacing:2px;text-transform:uppercase">Step 1 · Keep the Panama Papers</p>
+<p style="font-size:28px;color:#4A5663">Each row has a sourceID: we filter on it and keep the three link types that attach an entity to the network.</p>
+<div style="background:#0E1822;padding:28px;border-radius:12px">
+<p style="font-family:'JetBrains Mono', Consolas, monospace;font-size:24px;line-height:1.55;color:#E6EDF3;white-space:nowrap">df = df[df.sourceID == <span style="color:#F0B36A">"Panama Papers"</span>]<br>rels = rels[rels.rel_type.isin(<span style="color:#F0B36A">REL_TYPES</span>)]<br>rels = rels[rels.node_id_start.isin(ids)<br>&amp; rels.node_id_end.isin(ids)]</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;padding:32px;border:1px solid #DAD6CC;border-radius:16px">
+<p style="font-size:24px;font-weight:600;color:#1F5FBF;letter-spacing:2px;text-transform:uppercase">Step 2 · Link entities to connectors</p>
+<p style="font-size:28px;color:#4A5663">Officers, intermediaries and addresses go into one table of (connector, entity) pairs. Each pair is one edge.</p>
+<div style="background:#0E1822;padding:28px;border-radius:12px">
+<p style="font-family:'JetBrains Mono', Consolas, monospace;font-size:24px;line-height:1.55;color:#E6EDF3;white-space:nowrap">d = pd.concat([o, i, a])[[<span style="color:#F0B36A">"conn"</span>, <span style="color:#F0B36A">"ent"</span>]]<br>d = d.drop_duplicates()<br>G = nx.Graph()<br>G.add_edges_from(zip(d.conn, d.ent))</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;background:#14202B;color:#F3F1EC;padding:28px 36px;border-radius:16px">
+<p style="font-size:28px;line-height:1.4">Result of step 1: <b>213,634</b> entities, <b>238,402</b> officers, <b>14,110</b> intermediaries, <b>93,454</b> addresses</p>
+</div>
+<div style="flex:1;background:#14202B;color:#F3F1EC;padding:28px 36px;border-radius:16px">
+<p style="font-size:28px;line-height:1.4">Result of step 2: a graph with <b>468,623</b> nodes and <b>511,687</b> edges, undirected and simple</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-size:24px;color:#6A7179">Achille · 3 / 9 · src/load.py, src/graph.py</p>
+<aside>Achille, about 1 minute. Step 1: the file is a graph stored in CSV. Every row has a sourceID, the leak it comes from, so one line of pandas keeps the Panama Papers. We keep only the three link types that attach an entity to the network, officer_of, intermediary_of and registered_address, and only links whose two ends are in our subset. That gives 213,634 entities, 238,402 officers, 14,110 intermediaries and 93,454 addresses. Step 2: officers, intermediaries and addresses are connectors. We put them in one table of connector and entity pairs, remove duplicates, and add each pair as an edge. The graph is bipartite: entities on one side, connectors on the other, never an edge inside a side. It has 468,623 nodes and 511,687 edges, undirected and simple.</aside>
+</section>
