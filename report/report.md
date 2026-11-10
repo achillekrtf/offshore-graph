@@ -50,7 +50,9 @@ Three relationship types connect an entity to the rest of the network: `officer_
 
 A higher cap links more entities and grows the giant component, at the price of many more edges (7.7 times more at 500 than at 50) and of cliques created by a few big firms. The share of isolated entities stays between 31 % and 72 %, so the fragmentation of the projection is a property of the data and the cap only moves it. We keep 50 as a compromise between coverage and artificial cliques.
 
-![Bipartite graph and projection on a toy example](../figures/01_toy_example.png){width=85%}
+![One small piece of the real network: bipartite graph (left) and its projection on the entities (right)](../figures/06_real_bipartite_vs_projection.png){width=95%}
+
+The figure shows a real piece of the network with 10 entities, 2 officers and 1 intermediary. In the bipartite graph (13 nodes, 15 edges), the intermediary is linked to all 10 entities and one officer to four of them. In the projection (10 nodes, 45 edges), every pair of entities is linked because they share the intermediary, and the 6 pairs among the four entities that also share the officer have weight 2. One intermediary linked to 10 entities creates 10 x 9 / 2 = 45 edges, which is why the hubs are capped.
 
 **Choices that matter.**
 
